@@ -433,6 +433,9 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
         }
 
         #region myFunctions
+
+        public bool FinishAnchorSync { get; set; }
+
         public async Task myCreateFlow1Async()
         {
             // Start Session
@@ -459,6 +462,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
                 CloudManager.StopSession();
                 // // Reset session
                 // await CloudManager.ResetSessionAsync();
+                FinishAnchorSync = true;
             }
         }
 
@@ -468,6 +472,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             currentWatcher = null;
             CleanupSpawnedObjects();
             ReturnToLauncher();
+            FinishAnchorSync = false;
         }
 
 #pragma warning disable CS1998 // Conditional compile statements are removing await
@@ -526,6 +531,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             CloudManager.StopSession();
             // // Reset session
             // await CloudManager.ResetSessionAsync();
+            FinishAnchorSync = true;
         }
 
         #endregion
