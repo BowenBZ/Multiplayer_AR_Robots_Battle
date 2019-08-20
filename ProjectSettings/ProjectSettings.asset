@@ -923,10 +923,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 3
-  cloudProjectId: 
+  cloudProjectId: f9901cd1-cf71-4bed-ac6e-478d1276ec6b
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: SocialRobot
+  organizationId: zbw18
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
