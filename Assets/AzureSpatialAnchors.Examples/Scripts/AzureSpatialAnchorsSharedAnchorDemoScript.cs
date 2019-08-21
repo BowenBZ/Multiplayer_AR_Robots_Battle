@@ -436,6 +436,13 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 
         public bool FinishAnchorSync { get; set; }
 
+        // Interface to get anchor object
+        public GameObject GetAnchorObject()
+        {
+            return spawnedObject;
+        }
+        // public GameObject AnchorObject { get { return spawnedObject; } }
+
         public async Task myCreateFlow1Async()
         {
             // Start Session

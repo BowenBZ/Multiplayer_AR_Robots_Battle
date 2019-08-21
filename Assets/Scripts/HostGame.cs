@@ -23,11 +23,10 @@ public class HostGame : MonoBehaviour
 
     public void CreateNewRoom()
     {
-        string matchName = "default";
+        string matchName = "l33tKidz";
         uint matchSize = 8;
 
         manager.matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, manager.OnMatchCreate);
-        Debug.Log("Create Room");
     }
 
     public void CheckRoom()
@@ -46,7 +45,6 @@ public class HostGame : MonoBehaviour
         {
             manager.matchName = manager.matches[0].name;
             manager.matchMaker.JoinMatch(manager.matches[0].networkId, "", "", "", 0, 0, manager.OnMatchJoined);
-            Debug.Log("Join Room");
         }
     }
 

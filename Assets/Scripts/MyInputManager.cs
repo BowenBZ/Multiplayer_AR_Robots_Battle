@@ -7,18 +7,17 @@ using UnityEngine.XR.ARFoundation;
 #endif
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
 
-public class ObjectManager : InputInteractionBase
+public class MyInputManager : InputInteractionBase
 {
-    public GameObject robotPrefab;
-    GameObject robotObj;
-    
     AzureSpatialAnchorsSharedAnchorDemoScript anchorControl;
+    AllRobotControl clientRobotControl;
 
     // Start is called before the first frame update
     public override void Start()
     {
         // Get anchor controller
         anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureSpatialAnchorsSharedAnchorDemoScript>();
+        clientRobotControl = GetComponent<AllRobotControl>();
         base.Start();
     }
 
@@ -28,18 +27,11 @@ public class ObjectManager : InputInteractionBase
         base.Update();
     }
 
+    Quaternion rotation;
+
     protected override void OnSelectObjectInteraction(Vector3 hitPoint, object target)
     {
-        if(!anchorControl.FinishAnchorSync)
-            return;
-
-        Quaternion rotation = Quaternion.AngleAxis(0, Vector3.up);
-        
-        if (robotObj == null)
-        {
-            // Create the prefab
-            robotObj = GameObject.Instantiate(robotPrefab, hitPoint, rotation);
-            // Send to server
-        }
+        rotation = Quaternion.AngleAxis(0, Vector3.up);
+        clientRobotControl.CreateClientRobot(hitPoint, rotation);
     }
 }
