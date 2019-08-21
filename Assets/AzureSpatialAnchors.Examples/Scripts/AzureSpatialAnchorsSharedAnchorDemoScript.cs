@@ -11,7 +11,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 {
     public class AzureSpatialAnchorsSharedAnchorDemoScript : DemoScriptBase
     {
-        internal enum AppState
+        protected internal enum AppState
         {
             DemoStepChooseFlow = 0,
             DemoStepInputAnchorNumber,
@@ -31,7 +31,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             DemoStepComplete,
         }
 
-        internal enum DemoFlow
+        protected internal enum DemoFlow
         {
             CreateFlow = 0,
             LocateFlow
@@ -62,14 +62,14 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 #endif
 
         #region Member Variables
-        private AppState _currentAppState = AppState.DemoStepChooseFlow;
-        private DemoFlow _currentDemoFlow = DemoFlow.CreateFlow;
-        private readonly List<GameObject> otherSpawnedObjects = new List<GameObject>();
-        private int anchorsLocated = 0;
-        private int anchorsExpected = 0;
+        protected AppState _currentAppState = AppState.DemoStepChooseFlow;
+        protected DemoFlow _currentDemoFlow = DemoFlow.CreateFlow;
+        protected readonly List<GameObject> otherSpawnedObjects = new List<GameObject>();
+        protected int anchorsLocated = 0;
+        protected int anchorsExpected = 0;
         private readonly List<string> localAnchorIds = new List<string>();
-        private string _anchorKeyToFind = null;
-        private long? _anchorNumberToFind;
+        protected string _anchorKeyToFind = null;
+        protected long? _anchorNumberToFind;
         #endregion // Member Variables
 
         #region Unity Inspector Variables
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
         private string baseSharingUrl = "";
         #endregion // Unity Inspector Variables
 
-        private AppState currentAppState
+        protected AppState currentAppState
         {
             get
             {
@@ -128,12 +128,12 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 
                     if (anchorsLocated >= anchorsExpected)
                     {
-                        // currentAppState = AppState.DemoStepStopSessionForQuery;
-                        myLocateflow2Async();
+                        currentAppState = AppState.DemoStepStopSessionForQuery;
                     }
                 });
             }
         }
+
 
         /// <summary>
         /// Start is called on the frame when a script is enabled just before any
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             return Color.magenta;
         }
 
-        private void AttachTextMesh(GameObject parentObject, long? dataToAttach)
+        protected void AttachTextMesh(GameObject parentObject, long? dataToAttach)
         {
             GameObject go = new GameObject();
 
@@ -253,7 +253,6 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 #pragma warning disable CS1998 // Conditional compile statements are removing await
         protected override async Task OnSaveCloudAnchorSuccessfulAsync()
 #pragma warning restore CS1998
-
         {
             await base.OnSaveCloudAnchorSuccessfulAsync();
 
@@ -432,117 +431,6 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             }
         }
 
-        #region myFunctions
-
-        public bool FinishAnchorSync { get; set; }
-
-        // Interface to get anchor object
-        public GameObject GetAnchorObject()
-        {
-            return spawnedObject;
-        }
-        // public GameObject AnchorObject { get { return spawnedObject; } }
-
-        public async Task myCreateFlow1Async()
-        {
-            // Start Session
-            currentCloudAnchor = null;
-            // Avoid the currentAppState in a wrong state
-            currentAppState = AppState.DemoStepConfigSession;
-            // Config Session
-            ConfigureSession();
-            // Start Session
-            await CloudManager.StartSessionAsync();
-            // Enable the user to touch to put anchor
-            currentAppState = AppState.DemoStepCreateLocalAnchor;
-        }
-
-        public async Task myCreateFlow2Async()
-        {
-            if (spawnedObject != null)
-            {
-                // Disable the user to touch to put anchor
-                currentAppState = AppState.DemoStepSaveCloudAnchor;
-                // Save anchor data to cloud
-                await SaveCurrentObjectAnchorToCloudAsync();
-                // Stop session
-                CloudManager.StopSession();
-                // // Reset session
-                // await CloudManager.ResetSessionAsync();
-                FinishAnchorSync = true;
-            }
-        }
-
-        public void myReturnToLauncher()
-        {
-            currentCloudAnchor = null;
-            currentWatcher = null;
-            CleanupSpawnedObjects();
-            ReturnToLauncher();
-            FinishAnchorSync = false;
-        }
-
-#pragma warning disable CS1998 // Conditional compile statements are removing await
-        public async Task myLocateFlow1Async()
-#pragma warning restore CS1998
-        {
-            currentAppState = AppState.DemoStepInputAnchorNumber;
-            long anchorNumber;
-            string inputText = XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text;
-
-            if (!long.TryParse(inputText, out anchorNumber))
-            {
-                feedbackBox.text = "Invalid Anchor Number!";
-            }
-            else
-            {
-                _anchorNumberToFind = anchorNumber;
-#if !UNITY_EDITOR
-                _anchorKeyToFind = await anchorExchanger.RetrieveAnchorKey(_anchorNumberToFind.Value);
-#endif
-                if (_anchorKeyToFind == null)
-                {
-                    feedbackBox.text = "Anchor Number Not Found!";
-                }
-                else
-                {
-                    _currentDemoFlow = DemoFlow.LocateFlow;
-                    currentAppState = AppState.DemoStepCreateSession;
-                    XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text = "";
-                }
-            }
-
-            if (currentAppState == AppState.DemoStepCreateSession)
-            {
-                // Clean previous objects
-                CleanupSpawnedObjects();
-                // Put cloud anchor to null
-                currentCloudAnchor = null;
-                // Enable the config session part can add the anchor to find
-                currentAppState = AppState.DemoStepCreateSessionForQuery;
-                // Config session
-                anchorsLocated = 0;
-                ConfigureSession();
-                // Start session
-                await CloudManager.StartSessionAsync();
-                // Locate anchors
-                currentWatcher = CreateWatcher();
-            }
-        }
-
-        void myLocateflow2Async()
-        {
-            // Disable buttons
-            GameObject.Find("Manager").GetComponent<AnchorUIControl>().AnchorNameSuccess();
-            // Stop the session
-            CloudManager.StopSession();
-            // // Reset session
-            // await CloudManager.ResetSessionAsync();
-            FinishAnchorSync = true;
-        }
-
-        #endregion
-
         private async Task AdvanceLocateFlowDemoAsync()
         {
             switch (currentAppState)
@@ -619,7 +507,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             }
         }
 
-        private void ConfigureSession()
+        protected void ConfigureSession()
         {
             List<string> anchorsToFind = new List<string>();
 

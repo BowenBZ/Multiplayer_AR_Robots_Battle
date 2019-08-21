@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+#pragma warning disable 0618
 public class NetworkDataShare : MonoBehaviour
 {
     NetworkClient myClient;

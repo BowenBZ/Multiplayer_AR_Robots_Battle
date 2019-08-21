@@ -10,13 +10,13 @@ public class AllRobotControl : MonoBehaviour
     public GameObject clientRobotPrefab;
     public GameObject enemyRobotPrefab;
     Animator anim;
-    AzureSpatialAnchorsSharedAnchorDemoScript anchorControl;
+    AzureAnchorControl anchorControl;
 
     GameObject anchorObj;
 
     void Start()
     {
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureSpatialAnchorsSharedAnchorDemoScript>();
+        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
     }
 
     void Update()

@@ -362,9 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b17b9f839112a141a8b6bb75fe91406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
+  clientRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
     type: 3}
-  enemyRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
+  enemyRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
     type: 3}
 --- !u!114 &41352363
 MonoBehaviour:
@@ -936,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 294771743}
-  - component: {fileID: 294771744}
+  - component: {fileID: 294771745}
   - component: {fileID: 294771742}
   m_Layer: 0
   m_Name: AzureSpatialAnchors
@@ -977,7 +977,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &294771744
+--- !u!114 &294771745
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -986,7 +986,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 294771741}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b05d7d02a6af8dd48aefdd862a1556e2, type: 3}
+  m_Script: {fileID: 11500000, guid: b64a2a75c59f1a941abd030972d0c057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchoredObjectPrefab: {fileID: 2751724586268218684, guid: dae7e2e941b151a4c8f224e3f3d738cc,
@@ -1485,7 +1485,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 294771744}
+      - m_Target: {fileID: 0}
         m_MethodName: InitializeLocateFlowDemo
         m_Mode: 1
         m_Arguments:
@@ -1710,7 +1710,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 294771744}
+      - m_Target: {fileID: 0}
         m_MethodName: ReturnToLauncher
         m_Mode: 1
         m_Arguments:
@@ -1855,7 +1855,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 294771744}
+      - m_Target: {fileID: 294771745}
         m_MethodName: myReturnToLauncher
         m_Mode: 1
         m_Arguments:
@@ -2030,7 +2030,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 294771744}
+      - m_Target: {fileID: 0}
         m_MethodName: InitializeCreateFlowDemo
         m_Mode: 1
         m_Arguments:

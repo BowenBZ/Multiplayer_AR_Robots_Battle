@@ -10,7 +10,7 @@ public class AnchorUIControl : MonoBehaviour
     GameObject anchorNameBox;
     GameObject confirmDownloadButton;
 
-    AzureSpatialAnchorsSharedAnchorDemoScript anchorControl;
+    AzureAnchorControl anchorControl;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class AnchorUIControl : MonoBehaviour
         confirmDownloadButton = GameObject.Find("LocateFlowButton");
 
         // Get anchor controller
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureSpatialAnchorsSharedAnchorDemoScript>();
+        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
 
         // Set False
         guidanceText.SetActive(false);

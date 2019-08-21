@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
+#pragma warning disable 0618
 public class MyNetworkManager : NetworkManager
 {
 
@@ -16,7 +17,7 @@ public class MyNetworkManager : NetworkManager
     }
 
 
-    public virtual void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchCreate Success:{0}, ExtendedInfo:{1}, matchInfo:{2}", success, extendedInfo, matchInfo); }
 
@@ -29,7 +30,7 @@ public class MyNetworkManager : NetworkManager
         }
     }
 
-    public virtual void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
+    public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchJoined Success:{0}, ExtendedInfo:{1}, matchInfo:{2}", success, extendedInfo, matchInfo); }
 

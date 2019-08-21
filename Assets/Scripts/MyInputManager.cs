@@ -9,14 +9,11 @@ using Microsoft.Azure.SpatialAnchors.Unity.Examples;
 
 public class MyInputManager : InputInteractionBase
 {
-    AzureSpatialAnchorsSharedAnchorDemoScript anchorControl;
     AllRobotControl clientRobotControl;
 
     // Start is called before the first frame update
     public override void Start()
     {
-        // Get anchor controller
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureSpatialAnchorsSharedAnchorDemoScript>();
         clientRobotControl = GetComponent<AllRobotControl>();
         base.Start();
     }
