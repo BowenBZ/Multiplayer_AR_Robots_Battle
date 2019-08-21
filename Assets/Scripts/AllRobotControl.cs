@@ -7,8 +7,8 @@ public class AllRobotControl : MonoBehaviour
 {
     string enemyID;
     GameObject enemyRobot;
-    public GameObject enemyRobotPrefab;
     public GameObject clientRobotPrefab;
+    public GameObject enemyRobotPrefab;
     Animator anim;
     AzureSpatialAnchorsSharedAnchorDemoScript anchorControl;
 

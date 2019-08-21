@@ -200,7 +200,7 @@ public class RobotControl : MonoBehaviour
             anim.SetBool("Attack3", true);
             msg.Attack3 = true;
         }
-        else if (animatorStateInfo.IsName("Attack3"))
+        else if (animatorStateInfo.IsName("Attack3") || animatorStateInfo.IsName("Attack3-1"))
         {
             anim.SetBool("Attack3", false);
             msg.Attack3 = false;
