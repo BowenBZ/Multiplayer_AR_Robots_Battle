@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
+
 
 public class AllRobotControl : MonoBehaviour
 {
@@ -94,5 +97,11 @@ public class AllRobotControl : MonoBehaviour
 
         // Send it
         GetComponent<NetworkDataShare>().SendMessagetoServer(msg);
+
+        // Distable the plane detection
+        GameObject.Find("CameraParent").GetComponent<XRCameraPicker>().arCamera.GetComponent<ARPlaneManager>().detectionMode = PlaneDetectionMode.None;
+        GameObject[] planes = GameObject.FindGameObjectsWithTag("DetectedPlane");
+        for(int i=0; i<planes.Length; i++) 
+            Destroy(planes[i]);
     }
 }

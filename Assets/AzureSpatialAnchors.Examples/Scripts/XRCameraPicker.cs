@@ -24,6 +24,9 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
         /// </summary>
         public GameObject EditorCameraTree;
 
+        [HideInInspector]
+        public GameObject arCamera;
+
         void Awake()
         {
             GameObject targetCamera = EditorCameraTree;
@@ -34,7 +37,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 #elif !UNITY_EDITOR
              Debug.LogError("Unexpected platform for XRCameraPicker. Did you intend to include this script in your scene?");     
 #endif
-            Instantiate(targetCamera);
+            arCamera = Instantiate(targetCamera);
         }
     }
 }

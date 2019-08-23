@@ -362,9 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b17b9f839112a141a8b6bb75fe91406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
+  clientRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
     type: 3}
-  enemyRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
+  enemyRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
     type: 3}
 --- !u!114 &41352363
 MonoBehaviour:
