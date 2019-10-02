@@ -28,7 +28,17 @@ public class AllRobotControl : MonoBehaviour
         {
             CreateClientRobot(new Vector3(0, 1, 0), Quaternion.identity);
         }
+        CheckPlaneCollision();
+    }
 
+    void CheckPlaneCollision()
+    {
+        GameObject[] planes = GameObject.FindGameObjectsWithTag("DetectedPlane");
+        for (int i = 0; i < planes.Length; i++)
+            if(planes[i].GetComponent<Collider>() == null)
+            {
+                planes[i].AddComponent<Collider>();
+            }
     }
 
     // When local client heard from other clients
@@ -59,8 +69,6 @@ public class AllRobotControl : MonoBehaviour
         // Set it animator parameters
         anim = enemyRobot.GetComponent<Animator>();
         anim.SetFloat("Speed", msg.Speed);
-        anim.SetFloat("VelocityVertical", msg.VelocityVertical);
-        anim.SetFloat("VelocityHorizontal", msg.VelocityHorizontal);
 
         anim.SetBool("Jump", msg.Jump);
         anim.SetBool("Attack1", msg.Attack1);
@@ -104,4 +112,5 @@ public class AllRobotControl : MonoBehaviour
         for(int i=0; i<planes.Length; i++) 
             Destroy(planes[i]);
     }
+
 }

@@ -362,9 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b17b9f839112a141a8b6bb75fe91406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
+  clientRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
     type: 3}
-  enemyRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
+  enemyRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
     type: 3}
 --- !u!114 &41352363
 MonoBehaviour:
@@ -992,7 +992,7 @@ MonoBehaviour:
   anchoredObjectPrefab: {fileID: 2751724586268218684, guid: dae7e2e941b151a4c8f224e3f3d738cc,
     type: 3}
   cloudManager: {fileID: 294771742}
-  baseSharingUrl: https://sharingservice20190813104550.azurewebsites.net/api/anchors
+  baseSharingUrl: https://sharingserviceforsocialar.azurewebsites.net/api/anchors
 --- !u!1 &339971469
 GameObject:
   m_ObjectHideFlags: 0

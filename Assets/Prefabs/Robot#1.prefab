@@ -74,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123212420472186664}
   - component: {fileID: 1035851547217611722}
+  - component: {fileID: 7709034150647891102}
   m_Layer: 0
   m_Name: ROB_Arms_2_Low
   m_TagString: Untagged
@@ -151,6 +152,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.05224639, y: 0.005180667, z: -0.00012038555}
     m_Extent: {x: 0.20724788, y: 0.024666023, z: 0.020966407}
   m_DirtyAABB: 0
+--- !u!64 &7709034150647891102
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117186316996311172}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300006, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117195868128172894
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119691046968009590}
   - component: {fileID: 1040185743745051772}
+  - component: {fileID: 7708880474306086366}
   m_Layer: 0
   m_Name: ROB_Legs_2_Low
   m_TagString: Untagged
@@ -515,6 +531,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.040768195, y: 0.11091173, z: 0.004258371}
     m_Extent: {x: 0.07520603, y: 0.05435061, z: 0.030413665}
   m_DirtyAABB: 0
+--- !u!64 &7708880474306086366
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117322946611870148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300010, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117323661121431066
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,6 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123276475856985852}
   - component: {fileID: 1040305231558072192}
+  - component: {fileID: 7708858957074694626}
   m_Layer: 0
   m_Name: ROB_Head_Low
   m_TagString: Untagged
@@ -720,6 +751,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00000021606684, y: 0.09736548, z: 0.002543889}
     m_Extent: {x: 0.07757143, y: 0.07821514, z: 0.07854724}
   m_DirtyAABB: 0
+--- !u!64 &7708858957074694626
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117359856865672696}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117378492939481490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123390851098886308}
   - component: {fileID: 1039796506907785686}
+  - component: {fileID: 7707999058545737836}
   m_Layer: 0
   m_Name: ROB_Arms_1_Low
   m_TagString: Untagged
@@ -1194,7 +1240,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
+  m_SkinnedMotionVectors: 0
   m_Mesh: {fileID: 4300004, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
   m_Bones:
   - {fileID: 1123164953696132884}
@@ -1209,6 +1255,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.023095496, y: 0.0028916597, z: 0.014215842}
     m_Extent: {x: 0.10468917, y: 0.01322633, z: 0.01322633}
   m_DirtyAABB: 0
+--- !u!64 &7707999058545737836
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117639209133210742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300004, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117654657856420306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119368883765346324}
   - component: {fileID: 1039825693670370666}
+  - component: {fileID: 7707983618409448904}
   m_Layer: 0
   m_Name: ROB_Body_Low
   m_TagString: Untagged
@@ -1301,6 +1362,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.06594702, z: 0.0044908095}
     m_Extent: {x: 0.04957817, y: 0.10454305, z: 0.04440788}
   m_DirtyAABB: 0
+--- !u!64 &7707983618409448904
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117654657856420306}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300002, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117663908103009306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,6 +1510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119202748389909074}
   - component: {fileID: 1039497937153971066}
+  - component: {fileID: 7707953998996410182}
   m_Layer: 0
   m_Name: ROB_Legs_1_Low
   m_TagString: Untagged
@@ -1510,6 +1586,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: -0.03856627, z: 0.0017419653}
     m_Extent: {x: 0.055263825, y: 0.03701406, z: 0.013970825}
   m_DirtyAABB: 0
+--- !u!64 &7707953998996410182
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117686472002990940}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300008, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117749362001558146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,6 +1797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123249869287463592}
   - component: {fileID: 1036091367497361426}
+  - component: {fileID: 7708361152261884068}
   m_Layer: 0
   m_Name: ROB_Foot_Low
   m_TagString: Untagged
@@ -1783,6 +1874,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.043215003, y: 0.09572391, z: -0.014217671}
     m_Extent: {x: 0.07381213, y: 0.02121779, z: 0.03959427}
   m_DirtyAABB: 0
+--- !u!64 &7708361152261884068
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117859310953133246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300012, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
 --- !u!1 &1117875300914346428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,9 +1930,10 @@ GameObject:
   - component: {fileID: 1119623997150588788}
   - component: {fileID: 1068517262409528552}
   - component: {fileID: 1117910897308041663}
+  - component: {fileID: 7708307375602630055}
   m_Layer: 0
   m_Name: Robot#1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1865,7 +1971,7 @@ Animator:
   m_GameObject: {fileID: 1117910897308041662}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
-  m_Controller: {fileID: 9100000, guid: d9c04e8e2eca1ca4782323e0c4296d84, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3744f68d63cbf3a4c98d3c7778b36ba1, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1887,48 +1993,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputType: 1
-  angleSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.002814849
-      value: 0.0012634895
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 8.893175
-      value: 0.44043523
-      inSlope: 0.018637298
-      outSlope: 0.018637298
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 46.564648
-      value: 0.8691551
-      inSlope: 0.0028097793
-      outSlope: 0.0028097793
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 177.67732
-      value: 0.9877167
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+--- !u!54 &7708307375602630055
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117910897308041662}
+  serializedVersion: 2
+  m_Mass: 3
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &1117920370249069458
 GameObject:
   m_ObjectHideFlags: 0

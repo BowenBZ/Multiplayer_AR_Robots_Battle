@@ -6,24 +6,18 @@ using TouchControlsKit;
 public class RobotControl : MonoBehaviour
 {
     Animator anim;
-    int jumpHash = Animator.StringToHash("Jump");
     float velocityVertical, velocityHorizontal;
     AnimatorStateInfo animatorStateInfo;
 
     public enum InputType { keyboardInput, mobileInput };
     public InputType inputType;
-    public AnimationCurve angleSpeedCurve;  // 0 edgree equals to 0 speed, 180 degree equals to 1 speed
-
 
     // Some Middle Parameters
     Vector3 currentDirection;
     Vector3 cameraDirection;
     float offsetAngle;
     Vector2 projectDirection;
-    float angleToTurn;
     float currentSpeed;
-    float preSpeed;
-    float preAngletoTurn;
 
     NetworkDataShare networkDataControl;
     NetworkDataShare.RobotMessage msg;
@@ -38,10 +32,11 @@ public class RobotControl : MonoBehaviour
 
     void Update()
     {
+        // Commented when testing the robot locally
         if (gameObject.name != networkDataControl.clientID)
             return;
 
-        // For Keyboard Input
+        // For Keyboard Input - Don't use temporary
         if (inputType == InputType.keyboardInput)
         {
             velocityVertical = Input.GetAxis("Vertical");
@@ -52,8 +47,6 @@ public class RobotControl : MonoBehaviour
 
             // Send data
             msg.Speed = velocityVertical;
-            msg.VelocityVertical = velocityVertical;
-            msg.VelocityHorizontal = velocityHorizontal;
         }
 
         // For Mobile Input
@@ -68,72 +61,16 @@ public class RobotControl : MonoBehaviour
             // Rotate the joystick angle with the above angle
             projectDirection = Quaternion.Euler(0, 0, offsetAngle) * TCKInput.GetAxis("Joystick0");
 
-            // Canculate the angle from the robot forward direction to the projected joystick direction
-            angleToTurn = Vector2.SignedAngle(new Vector2(currentDirection.x, currentDirection.z),
-                                                    projectDirection);
-
-            // Set vertical speed
+            // Set speed
             currentSpeed = Vector2.SqrMagnitude(TCKInput.GetAxis("Joystick0"));
-            if (currentSpeed == 0 && preSpeed != 0)
-            {
-                preSpeed -= 2.0f * Time.deltaTime;
-                anim.SetFloat("Speed", preSpeed);
-                anim.SetFloat("VelocityVertical", preSpeed);
+            anim.SetFloat("Speed", currentSpeed);
 
-                // Set data for send
-                msg.Speed = preSpeed;
-                msg.VelocityVertical = preSpeed;
-
-                if (preSpeed < 1e-3)
-                    preSpeed = 0;
-            }
-            else
-            {
-                anim.SetFloat("Speed", currentSpeed);
-                anim.SetFloat("VelocityVertical", currentSpeed);
-
-                // Set data for send
-                msg.Speed = currentSpeed;
-                msg.VelocityVertical = currentSpeed;
-
-                preSpeed = currentSpeed;
-            }
-
-            // Set horizontal speed
-            if (angleToTurn == 0 && preAngletoTurn != 0)
-            {
-                if (preAngletoTurn > 0)
-                {
-                    preAngletoTurn -= 180.0f * Time.deltaTime;
-                }
-                else
-                {
-                    preAngletoTurn += 180.0f * Time.deltaTime;
-                }
-                angleToTurn = preAngletoTurn;
-                if (Mathf.Abs(preAngletoTurn) < 180.0f * Time.deltaTime)
-                    preAngletoTurn = 0;
-            }
-            else
-            {
-                preAngletoTurn = angleToTurn;
-            }
-
-            if (Mathf.Abs(angleToTurn) > 1e-3)
-            {
-                float convertedHorizontalSpeed = angleSpeedCurve.Evaluate(Mathf.Abs(angleToTurn));
-                anim.SetFloat("VelocityHorizontal", -convertedHorizontalSpeed * angleToTurn / Mathf.Abs(angleToTurn));
-
-                // Set data to send
-                msg.VelocityHorizontal = -convertedHorizontalSpeed * angleToTurn / Mathf.Abs(angleToTurn);
-            }
-            else
-            {
-                anim.SetFloat("VelocityHorizontal", 0);
-
-                // Set data to send
-                msg.VelocityHorizontal = 0;
-            }
+            // Set direction of robot
+            if(currentSpeed > 0)
+                this.transform.forward = new Vector3(projectDirection.x, 0, projectDirection.y);
+            
+            // Send data
+            msg.Speed = currentSpeed;
         }
 
         // Set action trigger

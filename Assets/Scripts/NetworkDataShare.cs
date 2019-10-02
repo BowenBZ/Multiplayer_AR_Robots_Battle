@@ -54,8 +54,6 @@ public class NetworkDataShare : MonoBehaviour
         public Vector3 localPos;
         public Quaternion localRot;
         public float Speed;
-        public float VelocityVertical;
-        public float VelocityHorizontal;
         public bool Jump;
         public bool Attack1;
         public bool Attack1_1;
