@@ -12,9 +12,10 @@ public class AllRobotControl : MonoBehaviour
     GameObject enemyRobot;
     public GameObject clientRobotPrefab;
     public GameObject enemyRobotPrefab;
-    Animator anim;
-    AzureAnchorControl anchorControl;
+    RobotControl enemyControl;
+    Animator enemyAnim;
 
+    AzureAnchorControl anchorControl;
     GameObject anchorObj;
 
     void Start()
@@ -24,21 +25,11 @@ public class AllRobotControl : MonoBehaviour
 
     void Update()
     {
+        // Used for test
         if (Input.GetKeyDown(KeyCode.S))
         {
             CreateClientRobot(new Vector3(0, 1, 0), Quaternion.identity);
         }
-        CheckPlaneCollision();
-    }
-
-    void CheckPlaneCollision()
-    {
-        GameObject[] planes = GameObject.FindGameObjectsWithTag("DetectedPlane");
-        for (int i = 0; i < planes.Length; i++)
-            if(planes[i].GetComponent<Collider>() == null)
-            {
-                planes[i].AddComponent<Collider>();
-            }
     }
 
     // When local client heard from other clients
@@ -66,17 +57,24 @@ public class AllRobotControl : MonoBehaviour
         enemyRobot.transform.localPosition = msg.localPos;
         enemyRobot.transform.localRotation = msg.localRot;
 
+        // Set it HP and MP
+        enemyControl = enemyRobot.GetComponent<RobotControl>();
+        enemyControl.HP = msg.HP;
+        enemyControl.MP = msg.MP;
+
+        // Set it robot status
+        enemyControl.robotStatus = (RobotControl.RobotStatus)msg.robotStatus;
+
         // Set it animator parameters
-        anim = enemyRobot.GetComponent<Animator>();
-        anim.SetFloat("Speed", msg.Speed);
+        enemyAnim = enemyRobot.GetComponent<Animator>();
+        enemyAnim.SetFloat("Speed", msg.Speed);
 
-        anim.SetBool("Jump", msg.Jump);
-        anim.SetBool("Attack1", msg.Attack1);
-        anim.SetBool("Attack1-1", msg.Attack1_1);
-        anim.SetBool("Attack1-2", msg.Attack1_2);
-        anim.SetBool("Attack2", msg.Attack2);
-        anim.SetBool("Attack3", msg.Attack3);
-
+        enemyAnim.SetBool("Jump", msg.Jump);
+        enemyAnim.SetBool("Attack1", msg.Attack1);
+        enemyAnim.SetBool("Attack1-1", msg.Attack1_1);
+        enemyAnim.SetBool("Attack1-2", msg.Attack1_2);
+        enemyAnim.SetBool("Attack2", msg.Attack2);
+        enemyAnim.SetBool("Attack3", msg.Attack3);
     }
 
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
@@ -102,6 +100,8 @@ public class AllRobotControl : MonoBehaviour
         NetworkDataShare.RobotMessage msg = new NetworkDataShare.RobotMessage();
         msg.localPos = clientRobot.transform.localPosition;
         msg.localRot = clientRobot.transform.localRotation;
+        msg.HP = 100.0f;
+        msg.MP = 100.0f;
 
         // Send it
         GetComponent<NetworkDataShare>().SendMessagetoServer(msg);

@@ -51,6 +51,8 @@ public class NetworkDataShare : MonoBehaviour
     public class RobotMessage : MessageBase
     {
         public string ID;
+        public float HP;
+        public float MP;
         public Vector3 localPos;
         public Quaternion localRot;
         public float Speed;
@@ -60,6 +62,7 @@ public class NetworkDataShare : MonoBehaviour
         public bool Attack1_2;
         public bool Attack2;
         public bool Attack3;
+        public int robotStatus;
     }
 
     public void SendMessagetoServer(RobotMessage msg)
