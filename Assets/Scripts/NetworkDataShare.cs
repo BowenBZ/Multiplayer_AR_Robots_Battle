@@ -51,6 +51,7 @@ public class NetworkDataShare : MonoBehaviour
     public class RobotMessage : MessageBase
     {
         public string ID;
+        public int robotIndex;
         public float HP;
         public float MP;
         public Vector3 localPos;
@@ -71,6 +72,7 @@ public class NetworkDataShare : MonoBehaviour
             return;
 
         msg.ID = clientID;
+        msg.robotIndex = SceneBridge.clientRobotIndex;
         myClient.Send(MyMsgType.RobotMessageforServer, msg);
     }
 

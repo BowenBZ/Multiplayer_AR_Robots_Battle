@@ -10,8 +10,7 @@ public class AllRobotControl : MonoBehaviour
 {
     string enemyID;
     GameObject enemyRobot;
-    public GameObject clientRobotPrefab;
-    public GameObject enemyRobotPrefab;
+    MainSceneRobotSelection robotSelection;
     RobotControl enemyControl;
     Animator enemyAnim;
 
@@ -21,6 +20,7 @@ public class AllRobotControl : MonoBehaviour
     void Start()
     {
         anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
+        robotSelection = GetComponent<MainSceneRobotSelection>();
     }
 
     void Update()
@@ -45,7 +45,8 @@ public class AllRobotControl : MonoBehaviour
         // If not, create an object
         if (enemyRobot == null)
         {
-            enemyRobot = GameObject.Instantiate(enemyRobotPrefab);
+            // Insantiate the robot according to the robot index
+            enemyRobot = GameObject.Instantiate(robotSelection.objects[msg.robotIndex]);
             // Assign the Id to the name
             enemyRobot.name = enemyID;
             // Set it parent
@@ -89,7 +90,7 @@ public class AllRobotControl : MonoBehaviour
             return;
 
         // Create the object
-        GameObject clientRobot = GameObject.Instantiate(clientRobotPrefab, pos, rot);
+        GameObject clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
         // Assign the ID to the name
         clientRobot.name = robotID;
         // Find the anchor object and set it to the parent

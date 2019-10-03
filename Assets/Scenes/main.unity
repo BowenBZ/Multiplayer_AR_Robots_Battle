@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 41352364}
   - component: {fileID: 41352363}
   - component: {fileID: 41352362}
+  - component: {fileID: 41352366}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -362,10 +363,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b17b9f839112a141a8b6bb75fe91406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientRobotPrefab: {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744,
-    type: 3}
-  enemyRobotPrefab: {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a,
-    type: 3}
 --- !u!114 &41352363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,6 +471,21 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!114 &41352366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41352358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483d41e887c2eb94093409a4dcf3e152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - {fileID: 1117910897308041662, guid: 38134021b3706d44aa864f6571c2e744, type: 3}
+  - {fileID: 4641747001690979993, guid: a1a2fcba7365f424eacb62c288761e1a, type: 3}
 --- !u!1 &89287064
 GameObject:
   m_ObjectHideFlags: 0

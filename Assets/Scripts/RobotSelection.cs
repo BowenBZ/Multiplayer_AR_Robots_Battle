@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RobotSelection : MonoBehaviour
 {
@@ -41,5 +42,11 @@ public class RobotSelection : MonoBehaviour
         currentPresentObj = GameObject.Instantiate(objects[currentIndex],
                                                     new Vector3(0.0f, 0.0f, 0.0f),
                                                     Quaternion.Euler(0.0f, 180.0f, 0.0f));
+    }
+
+    public void LoadMainScene()
+    {
+        SceneBridge.clientRobotIndex = currentIndex;
+        SceneManager.LoadScene("main", LoadSceneMode.Single);
     }
 }
