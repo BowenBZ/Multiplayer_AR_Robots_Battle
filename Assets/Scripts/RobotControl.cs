@@ -251,6 +251,8 @@ public class RobotControl : MonoBehaviour
 #if !UNITY_EDITOR
         if (gameObject.name != networkDataControl.clientID)
             return;
+            
+        Handheld.Vibrate();
 #endif
         HP -= harm;
     }

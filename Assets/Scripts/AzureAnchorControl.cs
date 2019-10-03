@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Azure.SpatialAnchors;
 using Microsoft.Azure.SpatialAnchors.Unity;
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
+using UnityEngine.SceneManagement;
+
 
 public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 {
@@ -56,11 +58,12 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
     public void myReturnToLauncher()
     {
-        currentCloudAnchor = null;
-        currentWatcher = null;
-        CleanupSpawnedObjects();
-        ReturnToLauncher();
-        FinishAnchorSync = false;
+        // currentCloudAnchor = null;
+        // currentWatcher = null;
+        // CleanupSpawnedObjects();
+        // ReturnToLauncher();
+        // FinishAnchorSync = false;
+        SceneManager.LoadScene("RobotSelection", LoadSceneMode.Single);
     }
 
 

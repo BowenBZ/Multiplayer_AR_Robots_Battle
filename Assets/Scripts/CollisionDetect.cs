@@ -27,7 +27,7 @@ public class CollisionDetect : MonoBehaviour
         {
             // Debug.Log(other.gameObject.name);
             // GameObject.Find("DebugText").GetComponent<Text>().text = other.gameObject.name;
-            robotControl.UpdateHP(5);
+            robotControl.UpdateHP(1);
         }
     }
 
