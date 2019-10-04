@@ -8,15 +8,23 @@ using UnityEngine.UI;
 #pragma warning disable 0618
 public class MyNetworkManager : NetworkManager
 {
-
+    // Text to show the room info
     Text roomNames;
+
+    // Flag to presents whether in a room
+    [HideInInspector]
+    public bool isInRoom;
+
+    AnchorUIControl anchorUIControl;
 
     void Start()
     {
         roomNames = GameObject.Find("RoomName").GetComponent<Text>();
+        isInRoom = false;
+        anchorUIControl = GetComponent<AnchorUIControl>();
     }
 
-
+    
     public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (LogFilter.logDebug) { Debug.LogFormat("NetworkManager OnMatchCreate Success:{0}, ExtendedInfo:{1}, matchInfo:{2}", success, extendedInfo, matchInfo); }
@@ -26,7 +34,8 @@ public class MyNetworkManager : NetworkManager
             NetworkClient localClient = StartHost(matchInfo);
             GetComponent<NetworkDataShare>().SetupClientServer(localClient);
             Debug.Log("Save Local Client during Creating");
-            roomNames.text = "Created room";
+            roomNames.text = "Created " + roomNames.text;
+            isInRoom = true;
         }
     }
 
@@ -39,7 +48,15 @@ public class MyNetworkManager : NetworkManager
             NetworkClient localClient = StartClient(matchInfo);
             GetComponent<NetworkDataShare>().SetupClientServer(localClient);
             Debug.Log("Save Local Client during Joining");
-            roomNames.text = "Joined Room";
+
+            // Start to download anchors according to the room name
+            string[] s = roomNames.text.Split('#');
+            string anchorIndex = s[1];
+            anchorUIControl.StartDownloadAnchor(anchorIndex);
+
+            // Change the settings
+            roomNames.text = "Joined " + roomNames.text;
+            isInRoom = true;
         }
     }
 }

@@ -36,7 +36,7 @@ public class AllRobotControl : MonoBehaviour
     public void ControlEnemyRobot(NetworkDataShare.RobotMessage msg)
     {
         // If haven't set up the anchor
-        if (!anchorControl.FinishAnchorSync)
+        if (!anchorControl.isAnchorSync)
             return;
 
         // Check wether the robot has already existed
@@ -83,7 +83,7 @@ public class AllRobotControl : MonoBehaviour
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
     {
         // If haven't set up the anchor
-        if (!anchorControl.FinishAnchorSync)
+        if (!anchorControl.isAnchorSync)
             return;
 
         // If haven't set up the client

@@ -471,6 +471,7 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  isInRoom: 0
 --- !u!114 &41352366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,7 +505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &89287065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -734,7 +735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &135191722
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1005,6 +1006,8 @@ MonoBehaviour:
     type: 3}
   cloudManager: {fileID: 294771742}
   baseSharingUrl: https://sharingserviceforsocialar.azurewebsites.net/api/anchors
+  isAnchorSync: 0
+  anchorIndex: 0
 --- !u!1 &339971469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,7 +1529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &520951331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1544,8 +1547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -220}
-  m_SizeDelta: {x: 300, y: 90}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 150, y: 70}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &520951332
 MonoBehaviour:
@@ -2217,7 +2220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &720699644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2651,7 +2654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1166426454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2824,7 +2827,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -4056,7 +4059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -100.0002, y: 69.99994}
+  m_AnchoredPosition: {x: -100, y: 70}
   m_SizeDelta: {x: 220, y: 220}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &973317031068649633
@@ -4542,7 +4545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -110.0002, y: 404.00006}
+  m_AnchoredPosition: {x: -110, y: 404}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &973317031562715957
@@ -4870,7 +4873,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -370}
+  m_AnchoredPosition: {x: 0, y: -220}
   m_SizeDelta: {x: 320, y: 130}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &3835951755163988116
@@ -4889,7 +4892,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -300}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3835951755163988117
@@ -5103,8 +5106,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 41352364}
-        m_MethodName: CreateNewRoom
+      - m_Target: {fileID: 41352359}
+        m_MethodName: StartCreateAnchor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5450,7 +5453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -220}
   m_SizeDelta: {x: 320, y: 130}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &5588944806985967009

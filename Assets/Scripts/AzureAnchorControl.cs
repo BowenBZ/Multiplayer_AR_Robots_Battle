@@ -12,10 +12,20 @@ using UnityEngine.SceneManagement;
 
 public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 {
+    // Flag to indicate finish the anchor sync (upload or download)
+    [HideInInspector]
+    public bool isAnchorSync;
+
+    // Anchor index
+    [HideInInspector]
+    public long anchorIndex;
+
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
+        isAnchorSync = false;
+        anchorIndex = -1;
     }
 
     // Update is called once per frame
@@ -24,8 +34,9 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         base.Update();
     }
 
-    public bool FinishAnchorSync { get; set; }
-
+    /// <Summary>
+    /// Start the sequence of uploading an anchor
+    /// </Summary>
     public async Task myCreateFlow1Async()
     {
         // Start Session
@@ -40,6 +51,9 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         currentAppState = AppState.DemoStepCreateLocalAnchor;
     }
 
+    /// <Summary>
+    /// Finish the sequence of uploading an anchor after the user place an anchor
+    /// </Summary>
     public async Task myCreateFlow2Async()
     {
         if (spawnedObject != null)
@@ -50,11 +64,23 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
             await SaveCurrentObjectAnchorToCloudAsync();
             // Stop session
             CloudManager.StopSession();
+            // Indicate the sync finished
+            isAnchorSync = true;
             // // Reset session
             // await CloudManager.ResetSessionAsync();
-            FinishAnchorSync = true;
         }
     }
+
+    /// <Summary>
+    /// When attached the name to the anchor, store the anchor index
+    /// </Summary>
+    protected override void AttachTextMesh(GameObject parentObject, long? dataToAttach)
+    {
+        base.AttachTextMesh(parentObject, dataToAttach);
+        anchorIndex = (long)dataToAttach;
+    }
+
+
 
     public void myReturnToLauncher()
     {
@@ -68,14 +94,14 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
 
 #pragma warning disable CS1998 // Conditional compile statements are removing await
-    public async Task myLocateFlow1Async()
+    public async Task myLocateFlow1Async(string anchorIndex)
 #pragma warning restore CS1998
     {
         currentAppState = AppState.DemoStepInputAnchorNumber;
         long anchorNumber;
-        string inputText = XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text;
+        // string inputText = XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text;
 
-        if (!long.TryParse(inputText, out anchorNumber))
+        if (!long.TryParse(anchorIndex, out anchorNumber))
         {
             feedbackBox.text = "Invalid Anchor Number!";
         }
@@ -93,7 +119,7 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
             {
                 _currentDemoFlow = DemoFlow.LocateFlow;
                 currentAppState = AppState.DemoStepCreateSession;
-                XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text = "";
+                // XRUXPickerForSharedAnchorDemo.Instance.GetDemoInputField().text = "";
             }
         }
 
@@ -123,8 +149,9 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         CloudManager.StopSession();
         // // Reset session
         // await CloudManager.ResetSessionAsync();
-        FinishAnchorSync = true;
+        isAnchorSync = true;
     }
+
 
     protected override void OnCloudAnchorLocated(AnchorLocatedEventArgs args)
     {

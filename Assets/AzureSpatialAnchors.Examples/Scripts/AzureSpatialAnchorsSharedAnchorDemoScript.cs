@@ -49,7 +49,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             { AppState.DemoStepSavingCloudAnchor,new DemoStepParams() { StepMessage = "Saving local anchor to cloud...", StepColor = Color.yellow }},
             { AppState.DemoStepStopSession,new DemoStepParams() { StepMessage = "Next: Stop cloud anchor session", StepColor = Color.green }},
             { AppState.DemoStepDestroySession,new DemoStepParams() { StepMessage = "Next: Destroy Cloud Anchor session", StepColor = Color.clear }},
-            { AppState.DemoStepCreateSessionForQuery,new DemoStepParams() { StepMessage = "Next: Create CloudSpatialAnchorSession for query", StepColor = Color.clear }},
+            { AppState.DemoStepCreateSessionForQuery,new DemoStepParams() { StepMessage = "Create CloudSpatialAnchorSession for query", StepColor = Color.clear }},
             { AppState.DemoStepStartSessionForQuery,new DemoStepParams() { StepMessage = "Next: Start CloudSpatialAnchorSession for query", StepColor = Color.clear }},
             { AppState.DemoStepLookForAnchor,new DemoStepParams() { StepMessage = "Next: Look for anchor", StepColor = Color.clear }},
             { AppState.DemoStepLookingForAnchor,new DemoStepParams() { StepMessage = "Looking for anchor...", StepColor = Color.clear }},
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
             return Color.magenta;
         }
 
-        protected void AttachTextMesh(GameObject parentObject, long? dataToAttach)
+        protected virtual void AttachTextMesh(GameObject parentObject, long? dataToAttach)
         {
             GameObject go = new GameObject();
 
