@@ -63,6 +63,7 @@ public class NetworkDataShare : MonoBehaviour
         public bool Attack1_2;
         public bool Attack2;
         public bool Attack3;
+        public bool Hit;
         public int robotStatus;
     }
 

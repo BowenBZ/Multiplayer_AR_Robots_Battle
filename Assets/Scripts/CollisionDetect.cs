@@ -22,18 +22,28 @@ public class CollisionDetect : MonoBehaviour
         otherRoot = GetRobotTransform(other.transform);
         if (otherRoot != thisRoot &&
            other.gameObject.name.Contains("Collider") &&
-           otherRoot.GetComponent<RobotControl>() != null &&
-           otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.attack)
+           otherRoot.GetComponent<RobotControl>() != null)
         {
-            // Debug.Log(other.gameObject.name);
-            // GameObject.Find("DebugText").GetComponent<Text>().text = other.gameObject.name;
-            robotControl.UpdateHP(1);
+            if (otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.attack)
+            {
+                // GameObject.Find("DebugText").GetComponent<Text>().text = other.gameObject.name;
+                robotControl.UpdateHP(1);
+            }
+            else if(otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.skillAttack1)
+            {
+                robotControl.UpdateHP(3);
+            }
+            else if(otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.skillAttack2)
+            {
+                robotControl.UpdateHP(5);
+                robotControl.BeAttacked();
+            }
         }
     }
 
     Transform GetRobotTransform(Transform cur)
     {
-        if(cur.GetComponent<RobotControl>() || cur.parent == null)
+        if (cur.GetComponent<RobotControl>() || cur.parent == null)
         {
             return cur;
         }

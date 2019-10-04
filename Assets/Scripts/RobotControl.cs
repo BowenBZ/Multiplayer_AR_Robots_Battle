@@ -23,7 +23,7 @@ public class RobotControl : MonoBehaviour
     NetworkDataShare.RobotMessage msg;
 
     // Robot action status
-    public enum RobotStatus { normal, attack };
+    public enum RobotStatus { normal, attack, skillAttack1, skillAttack2, hit };
     [HideInInspector]
     public RobotStatus robotStatus;
 
@@ -64,9 +64,6 @@ public class RobotControl : MonoBehaviour
 
         // Send the msg to server after msg is updated by the above 3 functions
         SendMessagetoServer();
-
-        // Set the status of the robot according to the animation state
-        UpdateRobotStatus();
     }
 
     /// <summary>
@@ -75,6 +72,7 @@ public class RobotControl : MonoBehaviour
     /// </summary>
     void UpdatePos()
     {
+        // The robot can be control only if it is in normal mode
         if (robotStatus == RobotStatus.normal)
         {
             // Current Robot Forward Direction
@@ -104,98 +102,142 @@ public class RobotControl : MonoBehaviour
     /// </summary>
     void UpdateAction()
     {
-        // Set action trigger
+        // Get current animator state
         animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-        // Jump Action
-        if (Input.GetKeyDown(KeyCode.Space) || TCKInput.GetAction("ButtonJump", EActionEvent.Down))
+        // Users can operate the robot only if they are not in hit status
+        if (robotStatus != RobotStatus.hit)
         {
-            anim.SetBool("Jump", true);
-            msg.Jump = true;
-        }
-        else if (animatorStateInfo.IsName("RunJump") || animatorStateInfo.IsName("StandJump"))
-        {
-            anim.SetBool("Jump", false);
-            msg.Jump = false;
-        }
-
-        // Normal Attack 1
-        if (TCKInput.GetAction("Button0", EActionEvent.Down))
-        {
-            anim.SetBool("Attack1", true);
-            msg.Attack1 = true;
-        }
-        else if (animatorStateInfo.IsName("Attack1") || animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
-        {
-            anim.SetBool("Attack1", false);
-            msg.Attack1 = false;
-        }
-
-        // Normal Attack 2
-        if (animatorStateInfo.IsName("Attack1") && TCKInput.GetAction("Button0", EActionEvent.Down))
-        {
-            anim.SetBool("Attack1-1", true);
-            msg.Attack1_1 = true;
-        }
-        else if (animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
-        {
-            anim.SetBool("Attack1-1", false);
-            msg.Attack1_1 = false;
-        }
-
-        // Normal Attack 3
-        if (animatorStateInfo.IsName("Attack1-1") && TCKInput.GetAction("Button0", EActionEvent.Down))
-        {
-            anim.SetBool("Attack1-2", true);
-            msg.Attack1_2 = true;
-        }
-        else if (animatorStateInfo.IsName("Attack1-2"))
-        {
-            anim.SetBool("Attack1-2", false);
-            msg.Attack1_2 = false;
-        }
-
-        // Attack 2
-        if (TCKInput.GetAction("Button1", EActionEvent.Down) && MP > 10.0f)
-        {
-            // Update animator
-            anim.SetBool("Attack2", true);
-            // Update msg
-            msg.Attack2 = true;
-            // Update MP
-            if (!animatorStateInfo.IsName("Attack2"))
+            // Jump Action
+            if (Input.GetKeyDown(KeyCode.Space) || TCKInput.GetAction("ButtonJump", EActionEvent.Down))
             {
-                MP -= 10.0f;
+                anim.SetBool("Jump", true);
+                msg.Jump = true;
             }
-            // Update msg
-            msg.MP = MP;
+            else if (animatorStateInfo.IsName("RunJump") || animatorStateInfo.IsName("StandJump"))
+            {
+                anim.SetBool("Jump", false);
+                msg.Jump = false;
+            }
+
+            // Normal Attack 1
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            {
+                anim.SetBool("Attack1", true);
+                msg.Attack1 = true;
+            }
+            else if (animatorStateInfo.IsName("Attack1") || animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
+            {
+                anim.SetBool("Attack1", false);
+                msg.Attack1 = false;
+            }
+
+            // Normal Attack 2
+            if (animatorStateInfo.IsName("Attack1") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            {
+                anim.SetBool("Attack1-1", true);
+                msg.Attack1_1 = true;
+            }
+            else if (animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
+            {
+                anim.SetBool("Attack1-1", false);
+                msg.Attack1_1 = false;
+            }
+
+            // Normal Attack 3
+            if (animatorStateInfo.IsName("Attack1-1") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            {
+                anim.SetBool("Attack1-2", true);
+                msg.Attack1_2 = true;
+            }
+            else if (animatorStateInfo.IsName("Attack1-2"))
+            {
+                anim.SetBool("Attack1-2", false);
+                msg.Attack1_2 = false;
+            }
+
+            // Attack 2
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button1", EActionEvent.Down) && MP > 20.0f)
+            {
+                // Update animator
+                anim.SetBool("Attack2", true);
+                // Update msg
+                msg.Attack2 = true;
+                // Update MP
+                if (!animatorStateInfo.IsName("Attack2"))
+                {
+                    MP -= 20.0f;
+                }
+                // Update msg
+                msg.MP = MP;
+            }
+            else if (animatorStateInfo.IsName("Attack2"))
+            {
+                anim.SetBool("Attack2", false);
+                msg.Attack2 = false;
+            }
+
+            // Attack 3
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button2", EActionEvent.Down) && MP > 40.0f)
+            {
+                // Update animator
+                anim.SetBool("Attack3", true);
+                // Update msg
+                msg.Attack3 = true;
+                // Update MP
+                if (!animatorStateInfo.IsName("Attack3") && !animatorStateInfo.IsName("Attack3-1"))
+                {
+                    MP -= 40.0f;
+                }
+                // Update msg
+                msg.MP = MP;
+            }
+            else if (animatorStateInfo.IsName("Attack3") || animatorStateInfo.IsName("Attack3-1"))
+            {
+                anim.SetBool("Attack3", false);
+                msg.Attack3 = false;
+            }
+        }
+        else if (robotStatus == RobotStatus.hit)
+        {
+            // Recovery from the hit status 
+            if (animatorStateInfo.IsName("Hit"))
+            {
+                anim.SetBool("Hit", false);
+                msg.Hit = false;
+            }
+        }
+
+        // Update the robot status according to the action status
+        if (animatorStateInfo.IsName("WalkRun") ||
+            animatorStateInfo.IsName("StandJump") ||
+            animatorStateInfo.IsName("RunJump"))
+        {
+            robotStatus = RobotStatus.normal;
+        }
+        else if (animatorStateInfo.IsName("Attack1") ||
+                animatorStateInfo.IsName("Attack1-1") ||
+                animatorStateInfo.IsName("Attack1-2"))
+        {
+            robotStatus = RobotStatus.attack;
         }
         else if (animatorStateInfo.IsName("Attack2"))
         {
-            anim.SetBool("Attack2", false);
-            msg.Attack2 = false;
+            robotStatus = RobotStatus.skillAttack1;
+        }
+        else if (animatorStateInfo.IsName("Attack3") ||
+                animatorStateInfo.IsName("Attack3-1"))
+        {
+            robotStatus = RobotStatus.skillAttack2;
+        }
+        else if (animatorStateInfo.IsName("Hit"))
+        {
+            robotStatus = RobotStatus.hit;
         }
 
-        // Attack 3
-        if (TCKInput.GetAction("Button2", EActionEvent.Down) && MP > 20.0f)
-        {
-            // Update animator
-            anim.SetBool("Attack3", true);
-            // Update msg
-            msg.Attack3 = true;
-            // Update MP
-            if (!animatorStateInfo.IsName("Attack3") && !animatorStateInfo.IsName("Attack3-1"))
-            {
-                MP -= 20.0f;
-            }
-            // Update msg
-            msg.MP = MP;
-        }
-        else if (animatorStateInfo.IsName("Attack3") || animatorStateInfo.IsName("Attack3-1"))
-        {
-            anim.SetBool("Attack3", false);
-            msg.Attack3 = false;
-        }
+        // Store robot status into msg
+        msg.robotStatus = (int)robotStatus;
+        Debug.Log(animatorStateInfo);
     }
 
     /// <summary>
@@ -207,24 +249,6 @@ public class RobotControl : MonoBehaviour
         msg.localPos = transform.localPosition;
         msg.localRot = transform.localRotation;
         networkDataControl.SendMessagetoServer(msg);
-    }
-
-    /// <summary>
-    /// Update robot status for collsion judgement
-    /// </summary>
-    void UpdateRobotStatus()
-    {
-        if (animatorStateInfo.IsName("WalkRun") ||
-                    animatorStateInfo.IsName("StandJump") ||
-                    animatorStateInfo.IsName("RunJump"))
-        {
-            robotStatus = RobotStatus.normal;
-        }
-        else
-        {
-            robotStatus = RobotStatus.attack;
-        }
-        msg.robotStatus = (int)robotStatus;
     }
 
     /// <summary>
@@ -251,9 +275,26 @@ public class RobotControl : MonoBehaviour
 #if !UNITY_EDITOR
         if (gameObject.name != networkDataControl.clientID)
             return;
-            
+
         Handheld.Vibrate();
 #endif
+        // Decrase HP
         HP -= harm;
+    }
+
+    // Was attacked by other's skill #2
+    public void BeAttacked()
+    {
+#if !UNITY_EDITOR
+        if (gameObject.name != networkDataControl.clientID)
+            return;
+#endif
+
+        // Set hit action
+        anim.SetBool("Hit", true);
+        // Update robot status
+        robotStatus = RobotStatus.hit;
+        // Store into msg
+        msg.Hit = true;
     }
 }

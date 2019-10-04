@@ -76,6 +76,8 @@ public class AllRobotControl : MonoBehaviour
         enemyAnim.SetBool("Attack1-2", msg.Attack1_2);
         enemyAnim.SetBool("Attack2", msg.Attack2);
         enemyAnim.SetBool("Attack3", msg.Attack3);
+
+        enemyAnim.SetBool("Hit", msg.Hit);
     }
 
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
