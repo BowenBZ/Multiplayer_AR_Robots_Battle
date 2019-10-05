@@ -11,9 +11,6 @@ This repo is the AR social functions of L33tKidz's launch product. It is based o
 
 ## How to Set up this project
 
-~~1. Follow the [AR Core Tutorial](https://developers.google.com/ar/develop/unity/quickstart-android)  
-2. There is a problem when you import the ARCore SDK for Unity if you use the Unity 2019. To fix them, import `Multiplayer HLAPI` and `XR Legacy Input Helpers packages` in package manager. [Reference](https://forum.unity.com/threads/arcore-sdk-console-error-spatialtracking-does-not-exist-in-the-namespace-unityengine.531243/)~~
-
 1. Set up your Azure Spatial Anchor Account.  
 Follow the [Azure Spatial Anchor Tutorial](https://docs.microsoft.com/en-us/azure/spatial-anchors/quickstarts/get-started-unity-android), do the following 2 steps.  
     1. Create an Azure account.  
@@ -42,7 +39,7 @@ If you want to store your anchors into CosmosDB other than InMemory, follow the 
         * `XR Legacy Input Helpers`
     2. In the project, navigate to `Assets\AzureSpatialAnchors.SDK\Resources\SpatialAnchorConfig`, in the inspector, paste your `Azure Account ID` and `Primary Key` created in step 1 to corresponding positions
     ![AnchorsAccount](HelpImages/AnchorsAccountInfo.png)
-    3. Open `Assets\Scenes\main`, in the Hierarchy, select `AzureSpatialAnchors`. In the Inspector, paste the URL of the web page got from step 2 or step 3 to the `Base Sharing URL`
+    3. Open `Assets\Scenes\main`, in the Hierarchy, select `AzureSpatialAnchors`. In the Inspector, paste the URL of the web page got from step 2 or step 3 to the `Base Sharing URL`  
     ![BaseSharingURL](HelpImages/BaseSharingURL.png)
 5. Build and Deploy.
     1. Open `File - Build Settings`
