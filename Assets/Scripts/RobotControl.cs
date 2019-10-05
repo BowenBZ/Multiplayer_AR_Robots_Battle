@@ -276,7 +276,8 @@ public class RobotControl : MonoBehaviour
         if (gameObject.name != networkDataControl.clientID)
             return;
 
-        Handheld.Vibrate();
+        // Don't do this because it causes anchor floating
+        // Handheld.Vibrate();
 #endif
         // Decrase HP
         HP -= harm;
