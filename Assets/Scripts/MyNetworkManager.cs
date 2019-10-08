@@ -15,13 +15,10 @@ public class MyNetworkManager : NetworkManager
     [HideInInspector]
     public bool isInRoom;
 
-    AnchorUIControl anchorUIControl;
-
     void Start()
     {
         roomNames = GameObject.Find("RoomName").GetComponent<Text>();
         isInRoom = false;
-        anchorUIControl = GetComponent<AnchorUIControl>();
     }
 
     
@@ -48,11 +45,6 @@ public class MyNetworkManager : NetworkManager
             NetworkClient localClient = StartClient(matchInfo);
             GetComponent<NetworkDataShare>().SetupClientServer(localClient);
             Debug.Log("Save Local Client during Joining");
-
-            // Start to download anchors according to the room name
-            string[] s = roomNames.text.Split('#');
-            string anchorIndex = s[1];
-            anchorUIControl.StartDownloadAnchor(anchorIndex);
 
             // Change the settings
             roomNames.text = "Joined " + roomNames.text;

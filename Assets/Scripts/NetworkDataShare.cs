@@ -67,9 +67,13 @@ public class NetworkDataShare : MonoBehaviour
         public int robotStatus;
     }
 
+
+    /// <Summary>
+    /// Needs multi-threading here 
+    /// </Summary>
     public void SendMessagetoServer(RobotMessage msg)
     {
-        if(clientID == "")
+        if (clientID == "")
             return;
 
         msg.ID = clientID;

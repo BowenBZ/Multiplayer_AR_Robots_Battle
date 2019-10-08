@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
+using System.Threading.Tasks;
 
-public class AnchorUIControl : MonoBehaviour
+public class UIControl : MonoBehaviour
 {
     // UI elements
     GameObject guidanceText;
@@ -39,59 +40,55 @@ public class AnchorUIControl : MonoBehaviour
     }
 
     /// <Summary>
-    /// Start the sequence of upload an anchor
+    /// Start the UI flow of uploading an anchor
     /// </Summary>
-    public async void StartCreateAnchor()
+    public void EnableUploadUIFlow()
     {
-        // Disable check room button since this client aims to create a room
-        CheckButton.SetActive(false);
-        JoinButton.SetActive(false);
-        // Starts the first flow to prepare for upload an anchor
-        await anchorControl.myCreateFlow1Async();
-        // Enable relevant UI
+        RoomButtonsClose();
         guidanceText.SetActive(true);
         confirmUploadButton.SetActive(true);
     }
 
-    /// <Summary>
-    /// Finish the sequence of upload an anchor
-    /// </Summary>
-    public async void FinishCreateAnchor()
-    {
-        // Disable confirm button after select an anchor
-        confirmUploadButton.SetActive(false);
-        // Starts the second flow to upload the anchor
-        await anchorControl.myCreateFlow2Async();
-        // Disable guidance UI when finishing uploading
-        guidanceText.SetActive(false);
-        // Real create a room
-        hostGame.CreateNewRoom(anchorControl.anchorIndex);
-        // Disable create room button
-        CreateButton.SetActive(false);
-    }
 
     /// <Summary>
     /// Start download the sequence of upload an anchor
     /// </Summary>
-    public async void StartDownloadAnchor(string anchorIndex)
+    public void EnableDownloadUIFlow()
     {
         // Disable create room and join room button
         CreateButton.SetActive(false);
         JoinButton.SetActive(false);
+
         // Enable guidance text
         guidanceText.SetActive(true);
-        // Start the download process
-        await anchorControl.myLocateFlow1Async(anchorIndex);
     }
 
-    public void AnchorNameSuccess()
-    {
-        guidanceText.SetActive(false);
-    }
-
+    /// <Summary>
+    /// Switch the check button to join button
+    /// </Summary>
     public void SwitchChecktoJoin()
     {
         CheckButton.SetActive(false);
         JoinButton.SetActive(true);
+    }
+
+    /// <Summary>
+    /// Close all room button UI elements
+    /// </Summary>
+    public void RoomButtonsClose()
+    {
+        CreateButton.SetActive(false);
+        CheckButton.SetActive(false);
+        JoinButton.SetActive(false);
+    }
+
+    /// <Summary>
+    /// Close all UI elements
+    /// </Summary>
+    public void AllUIClose()
+    {
+        RoomButtonsClose();
+        guidanceText.SetActive(false);
+        confirmUploadButton.SetActive(false);
     }
 }

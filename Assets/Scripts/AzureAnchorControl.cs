@@ -35,40 +35,51 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     }
 
     /// <Summary>
-    /// Start the sequence of uploading an anchor
+    /// Initialize the session of uploading an anchor
     /// </Summary>
-    public async Task myCreateFlow1Async()
+    public async Task InitializeUploadSession()
     {
-        // Start Session
+        // Set current anchor to null
         currentCloudAnchor = null;
+
         // Avoid the currentAppState in a wrong state
         currentAppState = AppState.DemoStepConfigSession;
+
         // Config Session
         ConfigureSession();
+
         // Start Session
         await CloudManager.StartSessionAsync();
+
         // Enable the user to touch to put anchor
         currentAppState = AppState.DemoStepCreateLocalAnchor;
     }
 
     /// <Summary>
-    /// Finish the sequence of uploading an anchor after the user place an anchor
+    /// Upload the anchor after place the anchor object
     /// </Summary>
-    public async Task myCreateFlow2Async()
+    public async Task<long> UploadAnchor()
     {
         if (spawnedObject != null)
         {
             // Disable the user to touch to put anchor
             currentAppState = AppState.DemoStepSaveCloudAnchor;
+
             // Save anchor data to cloud
             await SaveCurrentObjectAnchorToCloudAsync();
+
             // Stop session
             CloudManager.StopSession();
+
             // Indicate the sync finished
             isAnchorSync = true;
+
             // // Reset session
             // await CloudManager.ResetSessionAsync();
         }
+
+        // Return the anchor index
+        return anchorIndex;
     }
 
     /// <Summary>
@@ -79,8 +90,6 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         base.AttachTextMesh(parentObject, dataToAttach);
         anchorIndex = (long)dataToAttach;
     }
-
-
 
     public void myReturnToLauncher()
     {
@@ -94,7 +103,7 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
 
 #pragma warning disable CS1998 // Conditional compile statements are removing await
-    public async Task myLocateFlow1Async(string anchorIndex)
+    public async Task DownloadAnchor(string anchorIndex)
 #pragma warning restore CS1998
     {
         currentAppState = AppState.DemoStepInputAnchorNumber;
@@ -141,18 +150,6 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         }
     }
 
-    void myLocateflow2Async()
-    {
-        // Disable buttons
-        GameObject.Find("Manager").GetComponent<AnchorUIControl>().AnchorNameSuccess();
-        // Stop the session
-        CloudManager.StopSession();
-        // // Reset session
-        // await CloudManager.ResetSessionAsync();
-        isAnchorSync = true;
-    }
-
-
     protected override void OnCloudAnchorLocated(AnchorLocatedEventArgs args)
     {
         if (args.Status == LocateAnchorStatus.Located)
@@ -177,7 +174,11 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
                 if (anchorsLocated >= anchorsExpected)
                 {
-                    myLocateflow2Async();
+                    // Stop the session
+                    CloudManager.StopSession();
+                    // // Reset session
+                    // await CloudManager.ResetSessionAsync();
+                    isAnchorSync = true;
                 }
             });
         }
