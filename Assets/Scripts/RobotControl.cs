@@ -50,7 +50,7 @@ public class RobotControl : MonoBehaviour
     void Update()
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.clientID)
+        if (gameObject.name != networkDataControl.ClientID)
             return;
 #endif
         // Update the position of robot
@@ -273,7 +273,7 @@ public class RobotControl : MonoBehaviour
     public void UpdateHP(float harm)
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.clientID)
+        if (gameObject.name != networkDataControl.ClientID)
             return;
 
         // Don't do this because it causes anchor floating
@@ -287,7 +287,7 @@ public class RobotControl : MonoBehaviour
     public void BeAttacked()
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.clientID)
+        if (gameObject.name != networkDataControl.ClientID)
             return;
 #endif
 

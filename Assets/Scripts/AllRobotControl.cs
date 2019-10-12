@@ -8,19 +8,25 @@ using UnityEngine.XR.ARSubsystems;
 
 public class AllRobotControl : MonoBehaviour
 {
+    string clientID;
+    GameObject clientRobot;
     string enemyID;
+    Dictionary<string, GameObject> enemyRobotList;
     GameObject enemyRobot;
     MainSceneRobotSelection robotSelection;
     RobotControl enemyControl;
     Animator enemyAnim;
 
     AzureAnchorControl anchorControl;
-    GameObject anchorObj;
+    Transform anchorTransform;
+    RoomControl roomControl;
 
     void Start()
     {
         anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
         robotSelection = GetComponent<MainSceneRobotSelection>();
+        roomControl = GetComponent<RoomControl>();
+        enemyRobotList = new Dictionary<string, GameObject>();
     }
 
     void Update()
@@ -35,25 +41,35 @@ public class AllRobotControl : MonoBehaviour
     // When local client heard from other clients
     public void ControlEnemyRobot(NetworkDataShare.RobotMessage msg)
     {
-        // If haven't set up the anchor
-        if (!anchorControl.isAnchorSync)
+        // If haven't set up the room or anchor
+        if (!roomControl.IsInRoom || !anchorControl.IsAnchorSync)
             return;
 
         // Check wether the robot has already existed
-        string enemyID = msg.ID;
-        enemyRobot = GameObject.Find(enemyID);
+        enemyID = msg.ID;
+
         // If not, create an object
-        if (enemyRobot == null)
+        if (!enemyRobotList.ContainsKey(enemyID))
         {
             // Insantiate the robot according to the robot index
             enemyRobot = GameObject.Instantiate(robotSelection.objects[msg.robotIndex]);
             // Assign the Id to the name
             enemyRobot.name = enemyID;
+            // Put it into dictionary
+            enemyRobotList.Add(enemyID, enemyRobot);
             // Set it parent
-            if (anchorObj == null)
-                anchorObj = GameObject.FindWithTag("AnchorOriginPoint");
-            enemyRobot.transform.parent = anchorObj.transform;
+            if (anchorTransform == null)
+            {
+                anchorTransform = anchorControl.AnchorTransform;
+                // anchorTransform = GameObject.FindWithTag("AnchorOriginPoint").transform;
+            }
+            enemyRobot.transform.parent = anchorTransform;
         }
+        else
+        {
+            enemyRobot = enemyRobotList[enemyID];
+        }
+
         // Set it positions
         enemyRobot.transform.localPosition = msg.localPos;
         enemyRobot.transform.localRotation = msg.localRot;
@@ -82,22 +98,22 @@ public class AllRobotControl : MonoBehaviour
 
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
     {
-        // If haven't set up the anchor
-        if (!anchorControl.isAnchorSync)
+        // If haven't set up the anchor or haven't join the room
+        if (!anchorControl.IsAnchorSync || !roomControl.IsInRoom)
             return;
 
-        // If haven't set up the client
-        string robotID = GetComponent<NetworkDataShare>().clientID;
-        if (robotID == "" || GameObject.Find(robotID) != null)
+        // If have already set up the client robot
+        if (clientRobot != null)
             return;
 
         // Create the object
-        GameObject clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
+        clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
         // Assign the ID to the name
-        clientRobot.name = robotID;
+        clientID = GetComponent<NetworkDataShare>().ClientID;
+        clientRobot.name = clientID;
         // Find the anchor object and set it to the parent
-        anchorObj = GameObject.FindWithTag("AnchorOriginPoint");
-        clientRobot.transform.parent = anchorObj.transform;
+        anchorTransform = anchorControl.AnchorTransform;
+        clientRobot.transform.parent = anchorTransform;
 
         // Establish the animation parater
         NetworkDataShare.RobotMessage msg = new NetworkDataShare.RobotMessage();
@@ -112,7 +128,7 @@ public class AllRobotControl : MonoBehaviour
         // Distable the plane detection
         GameObject.Find("CameraParent").GetComponent<XRCameraPicker>().arCamera.GetComponent<ARPlaneManager>().detectionMode = PlaneDetectionMode.None;
         GameObject[] planes = GameObject.FindGameObjectsWithTag("DetectedPlane");
-        for(int i=0; i<planes.Length; i++) 
+        for (int i = 0; i < planes.Length; i++)
             Destroy(planes[i]);
     }
 

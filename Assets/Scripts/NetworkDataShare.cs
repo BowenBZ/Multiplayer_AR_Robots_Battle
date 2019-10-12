@@ -8,8 +8,10 @@ public class NetworkDataShare : MonoBehaviour
 {
     NetworkClient myClient;
 
-    [HideInInspector]
-    public string clientID;
+    string clientID;
+    public string ClientID { get { return clientID; } }
+    bool IsSetup { get { return clientID != ""; } }
+
     AllRobotControl enemyRobotControl;
 
     void Start()
@@ -33,7 +35,6 @@ public class NetworkDataShare : MonoBehaviour
 
         // Set up serve handler
         NetworkServer.RegisterHandler(MyMsgType.RobotMessageforServer, OnServerReceiveMsg);
-
     }
 
     private static char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -73,7 +74,7 @@ public class NetworkDataShare : MonoBehaviour
     /// </Summary>
     public void SendMessagetoServer(RobotMessage msg)
     {
-        if (clientID == "")
+        if (!IsSetup)
             return;
 
         msg.ID = clientID;

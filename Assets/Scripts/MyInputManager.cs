@@ -24,11 +24,8 @@ public class MyInputManager : InputInteractionBase
         base.Update();
     }
 
-    Quaternion rotation;
-
     protected override void OnSelectObjectInteraction(Vector3 hitPoint, object target)
     {
-        rotation = Quaternion.AngleAxis(0, Vector3.up);
-        clientRobotControl.CreateClientRobot(hitPoint, rotation);
+        clientRobotControl.CreateClientRobot(hitPoint, Quaternion.AngleAxis(0, Vector3.up));
     }
 }

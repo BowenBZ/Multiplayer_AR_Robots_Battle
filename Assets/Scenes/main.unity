@@ -301,11 +301,11 @@ GameObject:
   - component: {fileID: 41352360}
   - component: {fileID: 41352359}
   - component: {fileID: 41352361}
-  - component: {fileID: 41352365}
   - component: {fileID: 41352364}
   - component: {fileID: 41352363}
   - component: {fileID: 41352362}
   - component: {fileID: 41352366}
+  - component: {fileID: 41352365}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -375,7 +375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec2790fd7f221a4c8ef9bb172eb73b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientID: 
 --- !u!114 &41352364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +396,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 41352358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94433844c577ef64280711bc5a52c823, type: 3}
+  m_Script: {fileID: 11500000, guid: 10c2fd873b12541b392f10ecc4846574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkPort: 7777
@@ -471,7 +470,6 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  isInRoom: 0
 --- !u!114 &41352366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,8 +1004,6 @@ MonoBehaviour:
     type: 3}
   cloudManager: {fileID: 294771742}
   baseSharingUrl: https://sharingserviceforsocialar.azurewebsites.net/api/anchors
-  isAnchorSync: 0
-  anchorIndex: 0
 --- !u!1 &339971469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,7 +1022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &339971470
 RectTransform:
   m_ObjectHideFlags: 0

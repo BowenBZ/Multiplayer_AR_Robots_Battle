@@ -6,37 +6,24 @@ using System.Threading.Tasks;
 
 public class UIControl : MonoBehaviour
 {
-    // UI elements
     GameObject guidanceText;
-    GameObject confirmUploadButton;
-
     GameObject CreateButton;
     GameObject CheckButton;
     GameObject JoinButton;
 
-    // Other scripts
-    AzureAnchorControl anchorControl;
-    HostGame hostGame;
-
     // Start is called before the first frame update
     void Start()
     {
+#if !UNITY_EDITOR
         // Get buttons
         guidanceText = GameObject.Find("CreateFlowText");
-        confirmUploadButton = GameObject.Find("CreateFlowButton");
+        // Set False
+        guidanceText.SetActive(false);
+#endif
         CreateButton = GameObject.Find("CreateRoom");
         CheckButton = GameObject.Find("CheckRoom");
         JoinButton = GameObject.Find("JoinRoom");
-
-        // Set False
-        guidanceText.SetActive(false);
-        confirmUploadButton.SetActive(false);
         JoinButton.SetActive(false);
-
-        // Get anchor controller
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
-        // Get Host Game
-        hostGame = GetComponent<HostGame>();
     }
 
     /// <Summary>
@@ -46,7 +33,6 @@ public class UIControl : MonoBehaviour
     {
         RoomButtonsClose();
         guidanceText.SetActive(true);
-        confirmUploadButton.SetActive(true);
     }
 
 
@@ -88,7 +74,8 @@ public class UIControl : MonoBehaviour
     public void AllUIClose()
     {
         RoomButtonsClose();
+#if !UNITY_EDITOR
         guidanceText.SetActive(false);
-        confirmUploadButton.SetActive(false);
+#endif
     }
 }

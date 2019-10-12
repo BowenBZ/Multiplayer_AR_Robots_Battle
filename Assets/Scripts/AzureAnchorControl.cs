@@ -13,12 +13,15 @@ using UnityEngine.SceneManagement;
 public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 {
     // Flag to indicate finish the anchor sync (upload or download)
-    [HideInInspector]
-    public bool isAnchorSync;
+    bool isAnchorSync;
+    public bool IsAnchorSync { get { return isAnchorSync; } }
 
     // Anchor index
-    [HideInInspector]
-    public long anchorIndex;
+    long anchorIndex;
+
+    // Anchor Object
+    GameObject anchorObj;
+    public Transform AnchorTransform { get { return anchorObj.transform; } }
 
     // Start is called before the first frame update
     public override void Start()
@@ -37,10 +40,13 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     /// <Summary>
     /// Initialize the session of uploading an anchor
     /// </Summary>
-    public async Task InitializeUploadSession()
+    async Task InitializeUploadSession()
     {
         // Set current anchor to null
         currentCloudAnchor = null;
+
+        // Set spawned object to null;
+        spawnedObject = null;
 
         // Avoid the currentAppState in a wrong state
         currentAppState = AppState.DemoStepConfigSession;
@@ -56,27 +62,31 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     }
 
     /// <Summary>
-    /// Upload the anchor after place the anchor object
+    /// Initialize the upload session, and then upload the anchor after place the anchor object
     /// </Summary>
     public async Task<long> UploadAnchor()
     {
-        if (spawnedObject != null)
+        await InitializeUploadSession();
+
+        while (spawnedObject == null)
         {
-            // Disable the user to touch to put anchor
-            currentAppState = AppState.DemoStepSaveCloudAnchor;
-
-            // Save anchor data to cloud
-            await SaveCurrentObjectAnchorToCloudAsync();
-
-            // Stop session
-            CloudManager.StopSession();
-
-            // Indicate the sync finished
-            isAnchorSync = true;
-
-            // // Reset session
-            // await CloudManager.ResetSessionAsync();
+            await Task.Delay(330);
         }
+
+        // Disable the user to touch to put anchor
+        currentAppState = AppState.DemoStepSaveCloudAnchor;
+
+        // Save anchor data to cloud
+        await SaveCurrentObjectAnchorToCloudAsync();
+
+        // Stop session
+        CloudManager.StopSession();
+
+        // Indicate the sync finished
+        isAnchorSync = true;
+
+        // // Reset session
+        // await CloudManager.ResetSessionAsync();
 
         // Return the anchor index
         return anchorIndex;
@@ -88,16 +98,17 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     protected override void AttachTextMesh(GameObject parentObject, long? dataToAttach)
     {
         base.AttachTextMesh(parentObject, dataToAttach);
+        anchorObj = parentObject;
         anchorIndex = (long)dataToAttach;
     }
 
     public void myReturnToLauncher()
     {
-        // currentCloudAnchor = null;
+        currentCloudAnchor = null;
+        spawnedObject = null;
         // currentWatcher = null;
         // CleanupSpawnedObjects();
         // ReturnToLauncher();
-        // FinishAnchorSync = false;
         SceneManager.LoadScene("RobotSelection", LoadSceneMode.Single);
     }
 
@@ -136,15 +147,20 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         {
             // Clean previous objects
             CleanupSpawnedObjects();
+            
             // Put cloud anchor to null
             currentCloudAnchor = null;
+            
             // Enable the config session part can add the anchor to find
             currentAppState = AppState.DemoStepCreateSessionForQuery;
+            
             // Config session
             anchorsLocated = 0;
             ConfigureSession();
+            
             // Start session
             await CloudManager.StartSessionAsync();
+            
             // Locate anchors
             currentWatcher = CreateWatcher();
         }
