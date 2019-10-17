@@ -37,6 +37,12 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         base.Update();
     }
 
+    bool allowedPlacingAnchor = false;
+    protected override bool IsPlacingObject()
+    {
+        return allowedPlacingAnchor;
+    }
+
     /// <Summary>
     /// Initialize the session of uploading an anchor
     /// </Summary>
@@ -48,17 +54,17 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         // Set spawned object to null;
         spawnedObject = null;
 
-        // Avoid the currentAppState in a wrong state
-        currentAppState = AppState.DemoStepConfigSession;
-
         // Config Session
         ConfigureSession();
 
         // Start Session
         await CloudManager.StartSessionAsync();
 
-        // Enable the user to touch to put anchor
+        // Update the guidance text
         currentAppState = AppState.DemoStepCreateLocalAnchor;
+        
+        // Enable the user to touch to put anchor
+        allowedPlacingAnchor = true;
     }
 
     /// <Summary>
@@ -74,7 +80,7 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         }
 
         // Disable the user to touch to put anchor
-        currentAppState = AppState.DemoStepSaveCloudAnchor;
+        allowedPlacingAnchor = false;
 
         // Save anchor data to cloud
         await SaveCurrentObjectAnchorToCloudAsync();

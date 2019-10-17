@@ -18,9 +18,9 @@ public class RobotControl : MonoBehaviour
     float currentSpeed;
 
     // Network parameters
-    NetworkDataShare networkDataControl;
+    RoomControl roomControl;
 
-    NetworkDataShare.RobotMessage msg;
+    RobotMessage.Message msg;
 
     // Robot action status
     public enum RobotStatus { normal, attack, skillAttack1, skillAttack2, hit };
@@ -36,9 +36,9 @@ public class RobotControl : MonoBehaviour
         // Get the animator controller
         anim = GetComponent<Animator>();
         // Get the network control
-        networkDataControl = GameObject.Find("Manager").GetComponent<NetworkDataShare>();
+        roomControl = GameObject.Find("Manager").GetComponent<RoomControl>();
         // Initialize the message
-        msg = new NetworkDataShare.RobotMessage();
+        msg = new RobotMessage.Message();
         // Initialize the robot status
         robotStatus = RobotStatus.normal;
         // Initialize the HP and MP
@@ -50,7 +50,7 @@ public class RobotControl : MonoBehaviour
     void Update()
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.ClientID)
+        if (gameObject.name != roomControl.ClientID)
             return;
 #endif
         // Update the position of robot
@@ -237,7 +237,7 @@ public class RobotControl : MonoBehaviour
 
         // Store robot status into msg
         msg.robotStatus = (int)robotStatus;
-        Debug.Log(animatorStateInfo);
+        // Debug.Log(animatorStateInfo);
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public class RobotControl : MonoBehaviour
         msg.HP = HP;
         msg.localPos = transform.localPosition;
         msg.localRot = transform.localRotation;
-        networkDataControl.SendMessagetoServer(msg);
+        roomControl.SendMessagetoServer(msg);
     }
 
     /// <summary>
@@ -273,7 +273,7 @@ public class RobotControl : MonoBehaviour
     public void UpdateHP(float harm)
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.ClientID)
+        if (gameObject.name != roomControl.ClientID)
             return;
 
         // Don't do this because it causes anchor floating
@@ -287,7 +287,7 @@ public class RobotControl : MonoBehaviour
     public void BeAttacked()
     {
 #if !UNITY_EDITOR
-        if (gameObject.name != networkDataControl.ClientID)
+        if (gameObject.name != roomControl.ClientID)
             return;
 #endif
 

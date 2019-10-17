@@ -13,7 +13,6 @@ public class RoomControl : MonoBehaviour
     UIControl UIManager;
     AzureAnchorControl anchorControl;
     NetworkClient localClient;      // The local client
-    NetworkDataShare networkDataManger;
 
     // Indicate whether in local client
     public bool IsInRoom { get { return (localClient != null); } }
@@ -37,7 +36,12 @@ public class RoomControl : MonoBehaviour
 
         // Set local client to null
         localClient = null;
-        networkDataManger = GetComponent<NetworkDataShare>();
+
+        // Client ID
+        clientID = "";
+
+        // Other robot's control
+        enemyRobotControl = transform.GetComponent<ObjectsControl>();
 
 #if !UNITY_EDITOR
         anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
@@ -79,12 +83,12 @@ public class RoomControl : MonoBehaviour
     /// <Summary>
     /// Call back of the room creation
     /// </Summary>
-    public void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
         {
             localClient = networkManager.StartHost(matchInfo);
-            networkDataManger.SetupClientServer(localClient);
+            SetupClientandServer();
             UIManager.AllUIClose();
             Debug.Log("Save Local Client during Creating");
             roomNames.text = "Created " + roomNames.text;
@@ -135,15 +139,90 @@ public class RoomControl : MonoBehaviour
     /// <Summary>
     /// Call back of the room join
     /// </Summary>
-    public void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
+    void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
         {
             localClient = networkManager.StartClient(matchInfo);
-            networkDataManger.SetupClientServer(localClient);
+            SetupClientandServer();
             UIManager.AllUIClose();
             Debug.Log("Save Local Client during Joining");
             roomNames.text = "Joined " + roomNames.text;
         }
+    }
+
+    string clientID;
+    public string ClientID { get { return clientID; } }
+
+    /// </Summary>
+    /// Set up the call back of local client
+    /// </Summary>
+    void SetupClientandServer()
+    {
+        // Set up client handler
+        localClient.RegisterHandler(RobotMessage.MessageType.ToClient, OnClientReceiveMsg);
+        clientID = GenerateRandomString(10);
+
+        // Set up serve handler
+        NetworkServer.RegisterHandler(RobotMessage.MessageType.ToServer, OnServerReceiveMsg);
+    }
+
+    /// </Summary>
+    /// Generate the client ID
+    /// </Summary>
+
+    string GenerateRandomString(int length)
+    {
+        char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+        string checkCode = string.Empty;
+        Random rd = new Random();
+        for (int i = 0; i < length; i++)
+        {
+            checkCode += constant[Mathf.RoundToInt(Random.Range(0, 36))].ToString();
+        }
+        return checkCode;
+    }
+
+    RobotMessage.Message serverReceivedMsg;
+    /// </Summary>
+    /// Server event: receive one message and send it to other clients
+    /// </Summary>
+    async void OnServerReceiveMsg(NetworkMessage netMsg)
+    {
+        serverReceivedMsg = netMsg.ReadMessage<RobotMessage.Message>();
+        
+        // Debug.Log("Server Receive Message");
+        await Task.Run(() => NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg));
+    }
+
+    RobotMessage.Message clientReceivedMsg;
+    ObjectsControl enemyRobotControl;
+
+    /// </Summary>
+    /// Client event: check if received from others, control other's robots
+    /// </Summary>
+    void OnClientReceiveMsg(NetworkMessage netMsg)
+    {
+        clientReceivedMsg = netMsg.ReadMessage<RobotMessage.Message>();
+        // Debug.Log("Receive Message " + clientReceivedMsg.ID);
+        
+        // Filter the msg sent from this client 
+        if (clientReceivedMsg.ID != clientID)
+        {
+            enemyRobotControl.ControlEnemyRobot(clientReceivedMsg);
+        }
+    }
+
+    /// <Summary>
+    /// Needs multi-threading here 
+    /// </Summary>
+    public async void SendMessagetoServer(RobotMessage.Message msg)
+    {
+        if (!IsInRoom)
+            return;
+
+        msg.ID = clientID;
+        msg.robotIndex = SceneBridge.clientRobotIndex;
+        await Task.Run(() => localClient.Send(RobotMessage.MessageType.ToServer, msg));
     }
 }

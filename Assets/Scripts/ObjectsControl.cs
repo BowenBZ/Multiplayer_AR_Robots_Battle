@@ -6,7 +6,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 
-public class AllRobotControl : MonoBehaviour
+public class ObjectsControl : InputInteractionBase
 {
     string clientID;
     GameObject clientRobot;
@@ -21,25 +21,34 @@ public class AllRobotControl : MonoBehaviour
     Transform anchorTransform;
     RoomControl roomControl;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
         robotSelection = GetComponent<MainSceneRobotSelection>();
         roomControl = GetComponent<RoomControl>();
         enemyRobotList = new Dictionary<string, GameObject>();
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
+
         // Used for test
         if (Input.GetKeyDown(KeyCode.S))
         {
+            Debug.Log("S Pressed.");
             CreateClientRobot(new Vector3(0, 1, 0), Quaternion.identity);
         }
     }
 
+    protected override void OnSelectObjectInteraction(Vector3 hitPoint, object target)
+    {
+        CreateClientRobot(hitPoint, Quaternion.AngleAxis(0, Vector3.up));
+    }
+
     // When local client heard from other clients
-    public void ControlEnemyRobot(NetworkDataShare.RobotMessage msg)
+    public void ControlEnemyRobot(RobotMessage.Message msg)
     {
         // If haven't set up the room or anchor
         if (!roomControl.IsInRoom || !anchorControl.IsAnchorSync)
@@ -98,9 +107,11 @@ public class AllRobotControl : MonoBehaviour
 
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
     {
+#if !UNITY_EDITOR
         // If haven't set up the anchor or haven't join the room
         if (!anchorControl.IsAnchorSync || !roomControl.IsInRoom)
             return;
+#endif
 
         // If have already set up the client robot
         if (clientRobot != null)
@@ -109,21 +120,22 @@ public class AllRobotControl : MonoBehaviour
         // Create the object
         clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
         // Assign the ID to the name
-        clientID = GetComponent<NetworkDataShare>().ClientID;
+        clientID = GetComponent<RoomControl>().ClientID;
         clientRobot.name = clientID;
+
         // Find the anchor object and set it to the parent
         anchorTransform = anchorControl.AnchorTransform;
         clientRobot.transform.parent = anchorTransform;
 
         // Establish the animation parater
-        NetworkDataShare.RobotMessage msg = new NetworkDataShare.RobotMessage();
+        RobotMessage.Message msg = new RobotMessage.Message();
         msg.localPos = clientRobot.transform.localPosition;
         msg.localRot = clientRobot.transform.localRotation;
         msg.HP = 100.0f;
         msg.MP = 100.0f;
 
         // Send it
-        GetComponent<NetworkDataShare>().SendMessagetoServer(msg);
+        GetComponent<RoomControl>().SendMessagetoServer(msg);
 
         // Distable the plane detection
         GameObject.Find("CameraParent").GetComponent<XRCameraPicker>().arCamera.GetComponent<ARPlaneManager>().detectionMode = PlaneDetectionMode.None;

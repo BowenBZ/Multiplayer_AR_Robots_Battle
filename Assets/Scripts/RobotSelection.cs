@@ -47,6 +47,6 @@ public class RobotSelection : MonoBehaviour
     public void LoadMainScene()
     {
         SceneBridge.clientRobotIndex = currentIndex;
-        SceneManager.LoadScene("main", LoadSceneMode.Single);
+        SceneManager.LoadScene("ARFighting", LoadSceneMode.Single);
     }
 }
