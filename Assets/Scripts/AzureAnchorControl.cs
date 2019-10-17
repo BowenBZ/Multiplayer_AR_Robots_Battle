@@ -23,10 +23,13 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     GameObject anchorObj;
     public Transform AnchorTransform { get { return anchorObj.transform; } }
 
+
     // Start is called before the first frame update
     public override void Start()
     {
+#if !UNITY_EDITOR
         base.Start();
+#endif
         isAnchorSync = false;
         anchorIndex = -1;
     }
@@ -34,8 +37,11 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
     // Update is called once per frame
     public override void Update()
     {
+#if !UNITY_EDITOR
         base.Update();
+#endif
     }
+
 
     bool allowedPlacingAnchor = false;
     protected override bool IsPlacingObject()
@@ -62,7 +68,7 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
         // Update the guidance text
         currentAppState = AppState.DemoStepCreateLocalAnchor;
-        
+
         // Enable the user to touch to put anchor
         allowedPlacingAnchor = true;
     }
@@ -153,20 +159,20 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
         {
             // Clean previous objects
             CleanupSpawnedObjects();
-            
+
             // Put cloud anchor to null
             currentCloudAnchor = null;
-            
+
             // Enable the config session part can add the anchor to find
             currentAppState = AppState.DemoStepCreateSessionForQuery;
-            
+
             // Config session
             anchorsLocated = 0;
             ConfigureSession();
-            
+
             // Start session
             await CloudManager.StartSessionAsync();
-            
+
             // Locate anchors
             currentWatcher = CreateWatcher();
         }
