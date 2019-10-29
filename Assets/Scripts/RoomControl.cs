@@ -6,6 +6,10 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 
 #pragma warning disable 0618    // Disable the warning of the obsolete UNet
+/// <summary>
+/// 1. Control to the create and join network rooms
+/// 2. Handle the communication among clients 
+/// </summary>
 public class RoomControl : MonoBehaviour
 {
     NetworkManager networkManager;
@@ -14,7 +18,11 @@ public class RoomControl : MonoBehaviour
     AzureAnchorControl anchorControl;
     NetworkClient localClient;      // The local client
 
-    // Indicate whether in local client
+    /// <summary>
+    /// Indicate whether in a network room
+    /// </summary>
+    /// <param name="!"></param>
+    /// <returns></returns>
     public bool IsInRoom { get { return (localClient != null); } }
 
 
@@ -49,9 +57,10 @@ public class RoomControl : MonoBehaviour
     }
 
 
-    /// <Summary>
+    /// <summary>
     /// Initialize the anchor uploading process, and then create the room
-    /// </Summary>
+    /// </summary>
+    /// <returns></returns>
     public async void CreateRoom()
     {
         if (!IsInRoom)
@@ -80,9 +89,12 @@ public class RoomControl : MonoBehaviour
 
     }
 
-    /// <Summary>
+    /// <summary>
     /// Call back of the room creation
-    /// </Summary>
+    /// </summary>
+    /// <param name="success"></param>
+    /// <param name="extendedInfo"></param>
+    /// <param name="matchInfo"></param>
     void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
@@ -95,9 +107,10 @@ public class RoomControl : MonoBehaviour
         }
     }
 
-    /// <Summary>
+
+    /// <summary>
     /// Check whether there is a room in the server 
-    /// </Summary>
+    /// </summary>
     public void CheckRoom()
     {
         if (!IsInRoom)
@@ -111,9 +124,10 @@ public class RoomControl : MonoBehaviour
         }
     }
 
-    /// <Summary>
+    /// <summary>
     /// Join the room and download the anchors 
-    /// </Summary>
+    /// </summary>
+    /// <returns></returns>
     public async void JoinExistingRoom()
     {
         if (!IsInRoom && networkManager.matches != null && networkManager.matches.Count > 0)
@@ -136,9 +150,12 @@ public class RoomControl : MonoBehaviour
         }
     }
 
-    /// <Summary>
-    /// Call back of the room join
-    /// </Summary>
+    /// <summary>
+    /// Call back of joining a network room
+    /// </summary>
+    /// <param name="success"></param>
+    /// <param name="extendedInfo"></param>
+    /// <param name="matchInfo"></param>
     void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
@@ -152,9 +169,13 @@ public class RoomControl : MonoBehaviour
     }
 
     string clientID;
+    /// <summary>
+    /// The ID of this local client
+    /// </summary>
+    /// <value></value>
     public string ClientID { get { return clientID; } }
 
-    /// </Summary>
+    /// <Summary>
     /// Set up the call back of local client
     /// </Summary>
     void SetupClientandServer()
@@ -167,10 +188,11 @@ public class RoomControl : MonoBehaviour
         NetworkServer.RegisterHandler(RobotMessage.MessageType.ToServer, OnServerReceiveMsg);
     }
 
-    /// </Summary>
+    /// <summary>
     /// Generate the client ID
-    /// </Summary>
-
+    /// </summary>
+    /// <param name="length"></param>
+    /// <returns></returns>
     string GenerateRandomString(int length)
     {
         char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -184,28 +206,31 @@ public class RoomControl : MonoBehaviour
     }
 
     RobotMessage.Message serverReceivedMsg;
-    /// </Summary>
+    /// <summary>
     /// Server event: receive one message and send it to other clients
-    /// </Summary>
-    async void OnServerReceiveMsg(NetworkMessage netMsg)
+    /// </summary>
+    /// <param name="netMsg"></param>
+    void OnServerReceiveMsg(NetworkMessage netMsg)
     {
         serverReceivedMsg = netMsg.ReadMessage<RobotMessage.Message>();
-        
+
         // Debug.Log("Server Receive Message");
-        await Task.Run(() => NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg));
+        //await Task.Run(() => NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg));
+        NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg);
     }
 
     RobotMessage.Message clientReceivedMsg;
     ObjectsControl enemyRobotControl;
 
-    /// </Summary>
+    /// <summary>
     /// Client event: check if received from others, control other's robots
-    /// </Summary>
+    /// </summary>
+    /// <param name="netMsg"></param>
     void OnClientReceiveMsg(NetworkMessage netMsg)
     {
         clientReceivedMsg = netMsg.ReadMessage<RobotMessage.Message>();
         // Debug.Log("Receive Message " + clientReceivedMsg.ID);
-        
+
         // Filter the msg sent from this client 
         if (clientReceivedMsg.ID != clientID)
         {
@@ -213,16 +238,18 @@ public class RoomControl : MonoBehaviour
         }
     }
 
-    /// <Summary>
-    /// Needs multi-threading here 
-    /// </Summary>
-    public async void SendMessagetoServer(RobotMessage.Message msg)
+    /// <summary>
+    /// Send message from local client
+    /// </summary>
+    /// <param name="msg"></param>
+    public void SendMessagetoServer(RobotMessage.Message msg)
     {
         if (!IsInRoom)
             return;
 
         msg.ID = clientID;
         msg.robotIndex = SceneBridge.clientRobotIndex;
-        await Task.Run(() => localClient.Send(RobotMessage.MessageType.ToServer, msg));
+        // await Task.Run(() => localClient.Send(RobotMessage.MessageType.ToServer, msg));
+        localClient.Send(RobotMessage.MessageType.ToServer, msg);
     }
 }

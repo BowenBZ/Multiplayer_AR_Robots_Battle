@@ -9,11 +9,17 @@ using Microsoft.Azure.SpatialAnchors.Unity;
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
 using UnityEngine.SceneManagement;
 
-
+/// <summary>
+/// Control the anchor's movement
+/// </summary>
 public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 {
-    // Flag to indicate finish the anchor sync (upload or download)
     bool isAnchorSync;
+
+    /// <summary>
+    /// Indicate whether finish the anchor sync (upload or download)
+    /// </summary>
+    /// <value></value>
     public bool IsAnchorSync { get { return isAnchorSync; } }
 
     // Anchor index
@@ -44,9 +50,10 @@ public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 
 
     bool allowedPlacingAnchor = false;
+    // Only the spawnedObject is null and allowed by users
     protected override bool IsPlacingObject()
     {
-        return allowedPlacingAnchor;
+        return (allowedPlacingAnchor && spawnedObject == null);
     }
 
     /// <Summary>

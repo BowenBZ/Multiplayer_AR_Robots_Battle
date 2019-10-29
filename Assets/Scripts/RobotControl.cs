@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TouchControlsKit;
 
+/// <summary>
+/// Control the behaviors of robot
+/// </summary>
 public class RobotControl : MonoBehaviour
 {
     // Animator controller

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 #pragma warning disable 0618
+/// <summary>
+/// Static class to show the formation of message
+/// </summary>
 public static class RobotMessage
 {
     public class MessageType
