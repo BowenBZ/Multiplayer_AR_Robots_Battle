@@ -9,17 +9,17 @@ using TouchControlsKit;
 public class CameraFollower : MonoBehaviour
 {
     ObjectsControl objectsControl;
-    Transform target;
+    protected Transform target;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         objectsControl = GameObject.Find("Manager").GetComponent<ObjectsControl>();
         target = null;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (target == null)
         {
@@ -35,7 +35,7 @@ public class CameraFollower : MonoBehaviour
     /// <summary>
     /// Check whether client robot has been established
     /// </summary>
-    void CheckClientRobot()
+    protected virtual void CheckClientRobot()
     {
         if (objectsControl.clientRobot != null)
         {
@@ -47,7 +47,7 @@ public class CameraFollower : MonoBehaviour
     /// Set the target of the robot
     /// </summary>
     /// <param name="robot"></param>
-    void SetTarget(Transform robot)
+    protected void SetTarget(Transform robot)
     {
         target = robot;
     }
@@ -58,20 +58,20 @@ public class CameraFollower : MonoBehaviour
     /// <summary>
     /// Update the position of the camera
     /// </summary>
-    void UpdatePos()
+    protected void UpdatePos()
     {
         transform.position = target.position - distanceToTarget * transform.forward + 0.5f * transform.up;
     }
 
 
-    Vector2 look;
-    float xRot = -20.0f;
-    Vector3 newEulerAngles = new Vector3(0, 0, 0);
+    protected Vector2 look;
+    protected float xRot = -20.0f;
+    protected Vector3 newEulerAngles = new Vector3(0, 0, 0);
 
     /// <summary>
     /// Update the rotation of camera with mouse input or touch input
     /// </summary>
-    void UpdateRot()
+    protected void UpdateRot()
     {
         look = TCKInput.GetAxis("Touchpad");
         PlayerRotation(look.x, look.y);
@@ -82,18 +82,18 @@ public class CameraFollower : MonoBehaviour
     /// </summary>
     /// <param name="horizontal"></param>
     /// <param name="vertical"></param>
-    public void PlayerRotation(float horizontal, float vertical)
+    protected void PlayerRotation(float horizontal, float vertical)
     {
         transform.Rotate(0f, horizontal * 12f, 0f);
 
         // Vertical angle can only from -60 to 0
         xRot += vertical * 12f;
         xRot = Mathf.Clamp(xRot, -60f, 0f);
-        
+
         newEulerAngles.x = -xRot;
         newEulerAngles.y = transform.eulerAngles.y;
         newEulerAngles.z = 0.0f;
-        
+
         transform.eulerAngles = newEulerAngles;
     }
 }
