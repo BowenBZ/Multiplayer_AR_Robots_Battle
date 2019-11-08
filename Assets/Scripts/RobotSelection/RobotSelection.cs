@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handle the logic of the selection scene in the robot selection scene
+/// </summary>
 public class RobotSelection : MonoBehaviour
 {
     // List of Initialize the prefabs
@@ -85,6 +88,8 @@ public class RobotSelection : MonoBehaviour
     public void LoadMainScene()
     {
         SceneBridge.clientRobotIndex = currentIndex;
+        SceneBridge.playMode = (SceneBridge.PlayMode)currentMode;
+        
         if (currentMode == PlayMode.onlineMode)
         {
             SceneManager.LoadScene("OnlineFighting", LoadSceneMode.Single);

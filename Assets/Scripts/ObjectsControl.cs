@@ -12,7 +12,9 @@ public class ObjectsControl : InputInteractionBase
 {
     #region Localparameters
     MainSceneRobotSelection robotSelection;     // Robots' prefabs
-    GameObject clientRobot;         // Local client's robot
+    
+    [HideInInspector]
+    public GameObject clientRobot;         // Local client's robot
     Transform anchorTransform;      // Local anchor's transform
     AzureAnchorControl anchorControl;   // Local anchor's manager
     RoomControl roomControl;        // Local room manager
@@ -29,10 +31,20 @@ public class ObjectsControl : InputInteractionBase
     public override void Start()
     {
         base.Start();
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
         robotSelection = GetComponent<MainSceneRobotSelection>();
         roomControl = GetComponent<RoomControl>();
         enemyRobotList = new Dictionary<string, GameObject>();
+
+        // If in AR mode, get the AzureSpatialAnchors object
+        if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+        {
+            anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
+        }
+        // If in remote mode, create the robot immediately
+        else if (SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)
+        {
+            CreateClientRobot();
+        }
     }
 
     public override void Update()
@@ -55,17 +67,15 @@ public class ObjectsControl : InputInteractionBase
     }
 
     /// <summary>
-    /// Create the robot for local user according to the position and rotation
+    /// Create the robot for local user according to the position and rotation, used in AR mode
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="rot"></param>
     public void CreateClientRobot(Vector3 pos, Quaternion rot)
     {
-#if !UNITY_EDITOR
         // If haven't set up the anchor OR haven't join the room
         if (!anchorControl.IsAnchorSync || !roomControl.IsInRoom)
             return;
-#endif
 
         // Create the local robot for client
         clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
@@ -73,7 +83,10 @@ public class ObjectsControl : InputInteractionBase
         clientRobot.name = roomControl.ClientID;
 
         // Find the anchor's transform and set it to as the parent of the robot
-        anchorTransform = anchorControl.AnchorTransform;
+        if (anchorTransform == null)
+        {
+            anchorTransform = anchorControl.AnchorTransform;
+        }
         clientRobot.transform.parent = anchorTransform;
 
         // No need to send the msg of robot to server because the robot itself will send message to server
@@ -85,6 +98,23 @@ public class ObjectsControl : InputInteractionBase
             Destroy(planes[i]);
     }
 
+    /// <summary>
+    /// Create the robot for local user, used in online mode
+    /// </summary>
+    public void CreateClientRobot()
+    {
+        // Create the local robot for client
+        clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], new Vector3(0, 0, 0), Quaternion.identity);
+        // Assign the ID to the name
+        clientRobot.name = roomControl.ClientID;
+
+        // Find the anchor's transform and set it to as the parent of the robot
+        if (anchorTransform == null)
+        {
+            anchorTransform = GameObject.Find("Anchor").transform;
+        }
+        clientRobot.transform.parent = anchorTransform;
+    }
 
     /// <summary>
     /// When local client get message from other clients
@@ -92,11 +122,26 @@ public class ObjectsControl : InputInteractionBase
     /// <param name="msg"></param>
     public void ControlEnemyRobot(RobotMessage.Message msg)
     {
-#if !UNITY_EDITOR
-        // If haven't set up the anchor OR haven't join the room
-        if (!anchorControl.IsAnchorSync || !roomControl.IsInRoom)
+        // AR mode needs to check whether the anchor and room set up
+        if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+        {
+            if (!anchorControl.IsAnchorSync || !roomControl.IsInRoom)
+            {
+                return;
+            }
+        }
+        // Remote mode just check whether the room set up
+        else if (SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)
+        {
+            if (!roomControl.IsInRoom)
+            {
+                return;
+            }
+        }
+        else
+        {
             return;
-#endif
+        }
 
         // Get the current handle's enemy ID
         enemyID = msg.ID;
@@ -113,7 +158,20 @@ public class ObjectsControl : InputInteractionBase
             // Set it parent
             if (anchorTransform == null)
             {
-                anchorTransform = anchorControl.AnchorTransform;
+                // If it is in AR Mode, get Anchor from anchorControl
+                if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+                {
+                    anchorTransform = anchorControl.AnchorTransform;
+                }
+                // If it is in Remote Mode, get Anchor from Gameobject search
+                else if (SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)
+                {
+                    anchorTransform = GameObject.Find("Anchor").transform;
+                }
+                else
+                {
+                    return;
+                }
             }
             enemyRobot.transform.parent = anchorTransform;
         }
@@ -122,28 +180,9 @@ public class ObjectsControl : InputInteractionBase
             enemyRobot = enemyRobotList[enemyID];
         }
 
-
-        // enemyRobot = GameObject.Find(enemyID);
-        // if(enemyRobot == null)
-        // {
-        //     // Insantiate the robot according to the robot index
-        //     enemyRobot = GameObject.Instantiate(robotSelection.objects[msg.robotIndex]);
-        //     // Assign the Id to the name
-        //     enemyRobot.name = enemyID;
-        //     // Put it into dictionary
-        //     enemyRobotList.Add(enemyID, enemyRobot);
-        //     // Set it parent
-        //     if (anchorTransform == null)
-        //     {
-        //         anchorTransform = anchorControl.AnchorTransform;
-        //         // anchorTransform = GameObject.FindWithTag("AnchorOriginPoint").transform;
-        //     }
-        //     enemyRobot.transform.parent = anchorTransform;
-        // }
-
         // Set positions for enemy robot
-        enemyRobot.transform.localPosition = msg.localPos;
         enemyRobot.transform.localRotation = msg.localRot;
+        enemyRobot.transform.localPosition = msg.localPos;
 
         // Set HP and MP and status for enemy robot
         enemyControl = enemyRobot.GetComponent<RobotControl>();

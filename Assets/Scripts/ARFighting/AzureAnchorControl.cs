@@ -10,7 +10,7 @@ using Microsoft.Azure.SpatialAnchors.Unity.Examples;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Control the anchor's movement
+/// Control the anchor's establish, locate, upload and download
 /// </summary>
 public class AzureAnchorControl : AzureSpatialAnchorsSharedAnchorDemoScript
 {

@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 1394420674639861677}
   m_Layer: 0
   m_Name: AnchorPrefab
-  m_TagString: AnchorOriginPoint
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

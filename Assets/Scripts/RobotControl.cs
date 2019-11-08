@@ -34,6 +34,9 @@ public class RobotControl : MonoBehaviour
     [HideInInspector]
     public float HP, MP;
 
+    // Network parameters
+    bool isClientRobot;
+
     void Start()
     {
         // Get the animator controller
@@ -47,15 +50,19 @@ public class RobotControl : MonoBehaviour
         // Initialize the HP and MP
         HP = 100.0f;
         MP = 100.0f;
+        // Initialize the network parameters
+        isClientRobot = (transform.gameObject == GameObject.Find("Manager").GetComponent<ObjectsControl>().clientRobot);
     }
 
 
     void Update()
     {
-#if !UNITY_EDITOR
-        if (gameObject.name != roomControl.ClientID)
+        // Only allow the client to control its robot
+        if(!isClientRobot)
+        {
             return;
-#endif
+        }
+
         // Update the position of robot
         UpdatePos();
 
@@ -275,13 +282,15 @@ public class RobotControl : MonoBehaviour
     /// </summary>
     public void UpdateHP(float harm)
     {
-#if !UNITY_EDITOR
-        if (gameObject.name != roomControl.ClientID)
+        // Only allow the HP to be updated by the client itself
+        if(!isClientRobot)
+        {
             return;
+        }
 
         // Don't do this because it causes anchor floating
         // Handheld.Vibrate();
-#endif
+
         // Decrase HP
         HP -= harm;
     }
@@ -289,10 +298,11 @@ public class RobotControl : MonoBehaviour
     // Was attacked by other's skill #2
     public void BeAttacked()
     {
-#if !UNITY_EDITOR
-        if (gameObject.name != roomControl.ClientID)
+        // Only allow the Animation control by itself
+        if(!isClientRobot)
+        {
             return;
-#endif
+        }
 
         // Set hit action
         anim.SetBool("Hit", true);

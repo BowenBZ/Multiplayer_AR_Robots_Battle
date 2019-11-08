@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// Control HP and MP bar movement of the robot
+/// </summary>
 public class HPMPManager : MonoBehaviour
 {
 

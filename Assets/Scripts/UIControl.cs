@@ -4,6 +4,9 @@ using UnityEngine;
 using Microsoft.Azure.SpatialAnchors.Unity.Examples;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Control the UI logic
+/// </summary>
 public class UIControl : MonoBehaviour
 {
     GameObject guidanceText;
@@ -14,12 +17,14 @@ public class UIControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-#if !UNITY_EDITOR
-        // Get buttons
-        guidanceText = GameObject.Find("CreateFlowText");
-        // Set False
-        guidanceText.SetActive(false);
-#endif
+        if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+        {
+            // Get buttons
+            guidanceText = GameObject.Find("CreateFlowText");
+            // Set False
+            guidanceText.SetActive(false);
+        }
+
         CreateButton = GameObject.Find("CreateRoom");
         CheckButton = GameObject.Find("CheckRoom");
         JoinButton = GameObject.Find("JoinRoom");
@@ -74,8 +79,9 @@ public class UIControl : MonoBehaviour
     public void AllUIClose()
     {
         RoomButtonsClose();
-#if !UNITY_EDITOR
-        guidanceText.SetActive(false);
-#endif
+        if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+        {
+            guidanceText.SetActive(false);
+        }
     }
 }

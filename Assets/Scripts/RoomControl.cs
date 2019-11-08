@@ -26,6 +26,12 @@ public class RoomControl : MonoBehaviour
     public bool IsInRoom { get { return (localClient != null); } }
 
 
+    void Awake()
+    {
+        // Client ID
+        clientID = GenerateRandomString(10);
+    }
+
     /// <Summary>
     /// Get all required elements
     /// </Summary>
@@ -45,15 +51,14 @@ public class RoomControl : MonoBehaviour
         // Set local client to null
         localClient = null;
 
-        // Client ID
-        clientID = "";
-
         // Other robot's control
         enemyRobotControl = transform.GetComponent<ObjectsControl>();
 
-#if !UNITY_EDITOR
-        anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
-#endif
+        // If it is in AR mode, get the AzureSpatialAnchor objects
+        if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
+        {
+            anchorControl = GameObject.Find("AzureSpatialAnchors").GetComponent<AzureAnchorControl>();
+        }
     }
 
 
@@ -67,24 +72,39 @@ public class RoomControl : MonoBehaviour
         {
             string matchName = "l33tKidz#";
 
-#if !UNITY_EDITOR
-            UIManager.EnableUploadUIFlow();
-
-            // Upload the created anchor, and wait the anchor index return
-            long anchorIndex = await anchorControl.UploadAnchor();
-
-            if (anchorIndex != -1)
+            // AR Mode
+            if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
             {
-                matchName += anchorIndex.ToString();
-#endif
-            // Set up the room
-            roomNames.text = matchName;
-            uint matchSize = 8;
-            networkManager.matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreate);
-
 #if !UNITY_EDITOR
-            }
+                UIManager.EnableUploadUIFlow();
+
+                // Upload the created anchor, and wait the anchor index return
+                long anchorIndex = await anchorControl.UploadAnchor();
+
+                if (anchorIndex != -1)
+                {
+                    matchName += anchorIndex.ToString();
 #endif
+                // Set up the room
+                roomNames.text = matchName;
+                uint matchSize = 8;
+                networkManager.matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreate);
+#if !UNITY_EDITOR
+                }
+#endif
+            }
+            else   // Online Mode
+            {
+                char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+                matchName += constant[Mathf.RoundToInt(Random.Range(0, 36))].ToString();
+
+                // Set up the room
+                roomNames.text = matchName;
+                uint matchSize = 8;
+                networkManager.matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreate);
+            }
+
+
         }
 
     }
@@ -135,18 +155,21 @@ public class RoomControl : MonoBehaviour
             networkManager.matchName = networkManager.matches[0].name;
             networkManager.matchMaker.JoinMatch(networkManager.matches[0].networkId, "", "", "", 0, 0, OnMatchJoined);
 
-#if !UNITY_EDITOR
-            // Wait until it joins a room
-            while (!IsInRoom)
+            if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
             {
-                await Task.Delay(330);
-            }
+#if !UNITY_EDITOR
+                // Wait until it joins a room
+                while (!IsInRoom)
+                {
+                    await Task.Delay(330);
+                }
 
-            // Start to download anchors according to the room name
-            string[] s = roomNames.text.Split('#');
-            string anchorIndex = s[1];
-            await anchorControl.DownloadAnchor(anchorIndex);
+                // Start to download anchors according to the room name
+                string[] s = roomNames.text.Split('#');
+                string anchorIndex = s[1];
+                await anchorControl.DownloadAnchor(anchorIndex);
 #endif
+            }
         }
     }
 
@@ -182,7 +205,6 @@ public class RoomControl : MonoBehaviour
     {
         // Set up client handler
         localClient.RegisterHandler(RobotMessage.MessageType.ToClient, OnClientReceiveMsg);
-        clientID = GenerateRandomString(10);
 
         // Set up serve handler
         NetworkServer.RegisterHandler(RobotMessage.MessageType.ToServer, OnServerReceiveMsg);
@@ -215,7 +237,6 @@ public class RoomControl : MonoBehaviour
         serverReceivedMsg = netMsg.ReadMessage<RobotMessage.Message>();
 
         // Debug.Log("Server Receive Message");
-        //await Task.Run(() => NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg));
         NetworkServer.SendToAll(RobotMessage.MessageType.ToClient, serverReceivedMsg);
     }
 
@@ -234,6 +255,7 @@ public class RoomControl : MonoBehaviour
         // Filter the msg sent from this client 
         if (clientReceivedMsg.ID != clientID)
         {
+            Debug.Log("Receive Message " + clientReceivedMsg.ID);
             enemyRobotControl.ControlEnemyRobot(clientReceivedMsg);
         }
     }
@@ -249,7 +271,6 @@ public class RoomControl : MonoBehaviour
 
         msg.ID = clientID;
         msg.robotIndex = SceneBridge.clientRobotIndex;
-        // await Task.Run(() => localClient.Send(RobotMessage.MessageType.ToServer, msg));
         localClient.Send(RobotMessage.MessageType.ToServer, msg);
     }
 }

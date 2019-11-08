@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Detect the collision among robots when they attack
+/// </summary>
 public class CollisionDetect : MonoBehaviour
 {
 
