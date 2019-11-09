@@ -93,7 +93,7 @@ public class RoomControl : MonoBehaviour
                 }
 #endif
             }
-            else   // Online Mode
+            else if(SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)  // Online Mode
             {
                 char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
                 matchName += constant[Mathf.RoundToInt(Random.Range(0, 36))].ToString();
@@ -272,5 +272,13 @@ public class RoomControl : MonoBehaviour
         msg.ID = clientID;
         msg.robotIndex = SceneBridge.clientRobotIndex;
         localClient.Send(RobotMessage.MessageType.ToServer, msg);
+    }
+
+    /// <summary>
+    /// Exit to main scene
+    /// </summary>
+    public void ExitToMainScene()
+    {
+        SceneBridge.ExitToMainScene();
     }
 }

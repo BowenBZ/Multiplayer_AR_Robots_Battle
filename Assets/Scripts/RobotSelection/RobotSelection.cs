@@ -17,10 +17,10 @@ public class RobotSelection : MonoBehaviour
     int currentIndex;
 
     // Mode parameters
-    enum PlayMode { onlineMode, ARMode };
+    enum PlayMode { onlineMode, ARMode, PVEMode };
     PlayMode currentMode;
 
-    Button onlineBtn, ARBtn;
+    Button onlineBtn, ARBtn, PVEBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class RobotSelection : MonoBehaviour
         currentMode = PlayMode.onlineMode;
         onlineBtn = GameObject.Find("OnlineButton").GetComponent<Button>();
         ARBtn = GameObject.Find("ARButton").GetComponent<Button>();
+        PVEBtn = GameObject.Find("PVEButton").GetComponent<Button>();
         onlineBtn.Select();
     }
 
@@ -97,6 +98,10 @@ public class RobotSelection : MonoBehaviour
         {
             SceneManager.LoadScene("ARFighting", LoadSceneMode.Single);
         }
+        else if(currentMode == PlayMode.PVEMode)
+        {
+            SceneManager.LoadScene("PVEMap1", LoadSceneMode.Single);
+        }
     }
 
     public void EnableOnlineMode()
@@ -109,6 +114,11 @@ public class RobotSelection : MonoBehaviour
         currentMode = PlayMode.ARMode;
     }
 
+    public void EnablePVEMode()
+    {
+        currentMode = PlayMode.PVEMode;
+    }
+
     void SelectBtn()
     {
         if(currentMode == PlayMode.onlineMode)
@@ -118,6 +128,10 @@ public class RobotSelection : MonoBehaviour
         else if(currentMode == PlayMode.ARMode)
         {
             ARBtn.Select();
+        }
+        else if(currentMode == PlayMode.PVEMode)
+        {
+            PVEBtn.Select();
         }
     }
 }

@@ -33,4 +33,9 @@ public class PVEGameManager : MonoBehaviour
         // Enable the control
         clientRobot.GetComponent<RobotControl>().EnableControl();
     }
+
+    public void ExitToMainScene()
+    {
+        SceneBridge.ExitToMainScene();
+    }
 }

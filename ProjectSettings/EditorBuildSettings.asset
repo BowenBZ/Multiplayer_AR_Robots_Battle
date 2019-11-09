@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ARFighting.unity
     guid: 483bf47dee9e2b8458e5e1fcbb476e12
+  - enabled: 1
+    path: Assets/Scenes/PVEMap1.unity
+    guid: fadad1c5c2707fa43814ebc27acfa956
   m_configObjects: {}
