@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: af64afc08d9165646b3f23a1a1c477f3
+timeCreated: 1501518793
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: balk
+    100002: column
+    100004: fence
+    100006: //RootNode
+    100008: room
+    100010: room_ceiling
+    100012: steel
+    100014: steel_room
+    100016: wall
+    100018: walls
+    100020: steel_MeshPart0
+    100022: steel_MeshPart1
+    100024: wall.001
+    100026: balk.001
+    100028: crane
+    100030: crane.001
+    100032: steel.001
+    100034: steel.002
+    100036: wire_1
+    100038: wire_2
+    100040: goal
+    400000: balk
+    400002: column
+    400004: fence
+    400006: //RootNode
+    400008: room
+    400010: room_ceiling
+    400012: steel
+    400014: steel_room
+    400016: wall
+    400018: walls
+    400020: steel_MeshPart0
+    400022: steel_MeshPart1
+    400024: wall.001
+    400026: balk.001
+    400028: crane
+    400030: crane.001
+    400032: steel.001
+    400034: steel.002
+    400036: wire_1
+    400038: wire_2
+    400040: goal
+    2300000: balk
+    2300002: column
+    2300004: fence
+    2300006: room
+    2300008: room_ceiling
+    2300010: steel
+    2300012: steel_room
+    2300014: wall
+    2300016: walls
+    2300018: steel_MeshPart0
+    2300020: steel_MeshPart1
+    2300022: wall.001
+    2300024: balk.001
+    2300026: crane
+    2300028: crane.001
+    2300030: steel.001
+    2300032: steel.002
+    2300034: wire_1
+    2300036: wire_2
+    2300038: goal
+    3300000: balk
+    3300002: column
+    3300004: fence
+    3300006: room
+    3300008: room_ceiling
+    3300010: steel
+    3300012: steel_room
+    3300014: wall
+    3300016: walls
+    3300018: steel_MeshPart0
+    3300020: steel_MeshPart1
+    3300022: wall.001
+    3300024: balk.001
+    3300026: crane
+    3300028: crane.001
+    3300030: steel.001
+    3300032: steel.002
+    3300034: wire_1
+    3300036: wire_2
+    3300038: goal
+    4300000: walls
+    4300002: room
+    4300004: steel_room
+    4300006: room_ceiling
+    4300008: fence
+    4300010: balk
+    4300012: steel
+    4300014: column
+    4300016: wall
+    4300018: wall.001
+    4300020: steel_MeshPart0
+    4300022: steel_MeshPart1
+    4300024: crane.001
+    4300026: crane
+    4300028: steel.002
+    4300030: steel.001
+    4300032: balk.001
+    4300034: wire_2
+    4300036: wire_1
+    4300038: goal
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
