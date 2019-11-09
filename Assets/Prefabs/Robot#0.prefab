@@ -526,7 +526,7 @@ MeshCollider:
   m_GameObject: {fileID: 1117322946611870148}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
@@ -821,6 +821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123469409734842678}
+  - component: {fileID: 2057063303095982617}
   m_Layer: 0
   m_Name: LeftToeBase
   m_TagString: Untagged
@@ -843,6 +844,20 @@ Transform:
   m_Father: {fileID: 1119644779285330644}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2057063303095982617
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117382475588636070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.05
+  m_Height: 0.01
+  m_Direction: 1
+  m_Center: {x: -0.02, y: 0.05, z: 0}
 --- !u!1 &1117394139847791744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,7 +1642,7 @@ MeshCollider:
   m_GameObject: {fileID: 1117686472002990940}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
@@ -1831,7 +1846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123249869287463592}
   - component: {fileID: 1036091367497361426}
-  - component: {fileID: 7708361152261884068}
+  - component: {fileID: 4687264148492378361}
   m_Layer: 0
   m_Name: ROB_Foot_Low
   m_TagString: Untagged
@@ -1847,7 +1862,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117859310953133246}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.1032, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1119623997150588788}
@@ -1908,8 +1923,8 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.043215003, y: 0.09572391, z: -0.014217671}
     m_Extent: {x: 0.07381213, y: 0.02121779, z: 0.03959427}
   m_DirtyAABB: 0
---- !u!64 &7708361152261884068
-MeshCollider:
+--- !u!136 &4687264148492378361
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1918,10 +1933,10 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300012, guid: f07f2bec2b972d14989cc0adfeabe1bf, type: 3}
+  m_Radius: 0.07381211
+  m_Height: 0.04243558
+  m_Direction: 1
+  m_Center: {x: -0.0000000037252903, y: -0.0304849, z: 0.015640248}
 --- !u!1 &1117875300914346428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,7 +1996,7 @@ Transform:
   m_GameObject: {fileID: 1117910897308041662}
   m_LocalRotation: {x: -0, y: 0.99973077, z: -0, w: -0.023203164}
   m_LocalPosition: {x: 0.010709204, y: 0, z: 0.0000096464355}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1119643959429104914}
   - {fileID: 1123390851098886308}
@@ -2086,6 +2101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123091660502358290}
+  - component: {fileID: 5078640782715533186}
   m_Layer: 0
   m_Name: RightToeBase
   m_TagString: Untagged
@@ -2108,6 +2124,20 @@ Transform:
   m_Father: {fileID: 1119242700516854282}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5078640782715533186
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117933773694000708}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.05
+  m_Height: 0.01
+  m_Direction: 1
+  m_Center: {x: 0.02, y: -0.05, z: 0}
 --- !u!1 &1117980978700893138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,7 +2977,7 @@ GameObject:
   - component: {fileID: 5569115968419403572}
   - component: {fileID: 5569115968419403573}
   - component: {fileID: 5569115968419403574}
-  - component: {fileID: 5569115968419403530}
+  - component: {fileID: 3777621929558594369}
   m_Layer: 0
   m_Name: LeftHandCollider
   m_TagString: Untagged
@@ -3027,7 +3057,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5569115968419403530
+--- !u!54 &3777621929558594369
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3035,7 +3065,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569115968419403568}
   serializedVersion: 2
-  m_Mass: 0.0000001
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -3071,7 +3101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569115968573576491}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0136, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0053, y: 0.0007, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1119644779285330644}
@@ -3163,7 +3193,7 @@ GameObject:
   - component: {fileID: 5569115969222238617}
   - component: {fileID: 5569115969222238618}
   - component: {fileID: 5569115969222238619}
-  - component: {fileID: 5569115969222238623}
+  - component: {fileID: 8759302925787315664}
   m_Layer: 0
   m_Name: RightHandCollider
   m_TagString: Untagged
@@ -3243,7 +3273,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5569115969222238623
+--- !u!54 &8759302925787315664
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3251,7 +3281,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569115969222238597}
   serializedVersion: 2
-  m_Mass: 0.0000001
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -3287,7 +3317,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5569115969982026009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0063, y: 0, z: 0}
+  m_LocalPosition: {x: 0.0063, y: 0.0015, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1119242700516854282}

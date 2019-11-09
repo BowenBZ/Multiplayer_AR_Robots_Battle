@@ -26,7 +26,7 @@ public class RobotControl : MonoBehaviour
     RobotMessage.Message msg;
 
     // Robot action status
-    public enum RobotStatus { normal, attack, skillAttack1, skillAttack2, hit };
+    public enum RobotStatus { normal, jump, attack, skillAttack1, skillAttack2, hit };
     [HideInInspector]
     public RobotStatus robotStatus;
 
@@ -55,7 +55,7 @@ public class RobotControl : MonoBehaviour
     void Update()
     {
         // Only allow the client to control its robot
-        if(!isClientRobot)
+        if (!isClientRobot)
         {
             return;
         }
@@ -81,6 +81,7 @@ public class RobotControl : MonoBehaviour
         isClientRobot = true;
     }
 
+    Vector2 joystickInput = new Vector2(0, 0);
     /// <summary>
     /// Update the position and rotation according to the input. 
     /// Trigger different moving animation and store speed parameters.
@@ -90,22 +91,30 @@ public class RobotControl : MonoBehaviour
         // The robot can be control only if it is in normal mode
         if (robotStatus == RobotStatus.normal)
         {
-            // Current Robot Forward Direction
-            currentDirection = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
-            // Current Camera Forward Direction
-            cameraDirection = Vector3.ProjectOnPlane(Camera.main.transform.forward, new Vector3(0, 1, 0));
-            // Angle from the forward of robot to the forward of camera
-            offsetAngle = Vector2.SignedAngle(new Vector3(0, 1), new Vector2(cameraDirection.x, cameraDirection.z));
-            // Rotate the joystick angle with the above angle
-            projectDirection = Quaternion.Euler(0, 0, offsetAngle) * TCKInput.GetAxis("Joystick0");
+            joystickInput = TCKInput.GetAxis("Joystick0");
+            if (Vector2.SqrMagnitude(joystickInput) == 0)
+            {
+                joystickInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            }
 
             // Set speed
-            currentSpeed = Vector2.SqrMagnitude(TCKInput.GetAxis("Joystick0"));
+            currentSpeed = (Vector2.SqrMagnitude(joystickInput) > 0) ? 1.0f : 0.0f;
             anim.SetFloat("Speed", currentSpeed);
 
             // Set direction of robot
             if (currentSpeed > 0)
+            {
+                // Current Robot Forward Direction
+                currentDirection = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
+                // Current Camera Forward Direction
+                cameraDirection = Vector3.ProjectOnPlane(Camera.main.transform.forward, new Vector3(0, 1, 0));
+                // Angle from the forward of robot to the forward of camera
+                offsetAngle = Vector2.SignedAngle(new Vector3(0, 1), new Vector2(cameraDirection.x, cameraDirection.z));
+                // Rotate the joystick angle with the above angle
+                projectDirection = Quaternion.Euler(0, 0, offsetAngle) * joystickInput;
+                // Set the forward direction
                 this.transform.forward = new Vector3(projectDirection.x, 0, projectDirection.y);
+            }
         }
         // Store data
         msg.Speed = currentSpeed;
@@ -224,11 +233,14 @@ public class RobotControl : MonoBehaviour
         }
 
         // Update the robot status according to the action status
-        if (animatorStateInfo.IsName("WalkRun") ||
-            animatorStateInfo.IsName("StandJump") ||
-            animatorStateInfo.IsName("RunJump"))
+        if (animatorStateInfo.IsName("WalkRun"))
         {
             robotStatus = RobotStatus.normal;
+        }
+        else if (animatorStateInfo.IsName("StandJump") ||
+            animatorStateInfo.IsName("RunJump"))
+        {
+            robotStatus = RobotStatus.jump;
         }
         else if (animatorStateInfo.IsName("Attack1") ||
                 animatorStateInfo.IsName("Attack1-1") ||
@@ -263,7 +275,7 @@ public class RobotControl : MonoBehaviour
         msg.HP = HP;
         msg.localPos = transform.localPosition;
         msg.localRot = transform.localRotation;
-        if(roomControl != null)
+        if (roomControl != null)
         {
             roomControl.SendMessagetoServer(msg);
         }
@@ -291,7 +303,7 @@ public class RobotControl : MonoBehaviour
     public void UpdateHP(float harm)
     {
         // Only allow the HP to be updated by the client itself
-        if(!isClientRobot)
+        if (!isClientRobot)
         {
             return;
         }
@@ -307,7 +319,7 @@ public class RobotControl : MonoBehaviour
     public void BeAttacked()
     {
         // Only allow the Animation control by itself
-        if(!isClientRobot)
+        if (!isClientRobot)
         {
             return;
         }

@@ -53,7 +53,7 @@ public class CameraFollower : MonoBehaviour
     }
 
     // Distance between camera to the target, should support edit in the future
-    public float distanceToTarget = 2.0f;
+    public float distanceToTarget = 2.7f;
 
     /// <summary>
     /// Update the position of the camera
