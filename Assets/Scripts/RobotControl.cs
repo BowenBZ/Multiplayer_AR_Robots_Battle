@@ -35,7 +35,7 @@ public class RobotControl : MonoBehaviour
     public float HP, MP;
 
     // Network parameters
-    bool isClientRobot;
+    bool isClientRobot = false;
 
     void Start()
     {
@@ -50,10 +50,7 @@ public class RobotControl : MonoBehaviour
         // Initialize the HP and MP
         HP = 100.0f;
         MP = 100.0f;
-        // Initialize the network parameters
-        isClientRobot = (transform.gameObject == GameObject.Find("Manager").GetComponent<ObjectsControl>().clientRobot);
     }
-
 
     void Update()
     {
@@ -74,6 +71,14 @@ public class RobotControl : MonoBehaviour
 
         // Send the msg to server after msg is updated by the above 3 functions
         SendMessagetoServer();
+    }
+
+    /// <summary>
+    /// Enable local client to control this robot
+    /// </summary>
+    public void EnableControl()
+    {
+        isClientRobot = true;
     }
 
     /// <summary>
@@ -258,7 +263,10 @@ public class RobotControl : MonoBehaviour
         msg.HP = HP;
         msg.localPos = transform.localPosition;
         msg.localRot = transform.localRotation;
-        roomControl.SendMessagetoServer(msg);
+        if(roomControl != null)
+        {
+            roomControl.SendMessagetoServer(msg);
+        }
     }
 
     /// <summary>

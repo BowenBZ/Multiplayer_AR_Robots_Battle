@@ -81,6 +81,8 @@ public class ObjectsControl : InputInteractionBase
         clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], pos, rot);
         // Assign the ID to the name
         clientRobot.name = roomControl.ClientID;
+        // Enable the control
+        clientRobot.GetComponent<RobotControl>().EnableControl();
 
         // Find the anchor's transform and set it to as the parent of the robot
         if (anchorTransform == null)
@@ -107,6 +109,8 @@ public class ObjectsControl : InputInteractionBase
         clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], new Vector3(0, 0, 0), Quaternion.identity);
         // Assign the ID to the name
         clientRobot.name = roomControl.ClientID;
+        // Enable the control
+        clientRobot.GetComponent<RobotControl>().EnableControl();
 
         // Find the anchor's transform and set it to as the parent of the robot
         if (anchorTransform == null)
