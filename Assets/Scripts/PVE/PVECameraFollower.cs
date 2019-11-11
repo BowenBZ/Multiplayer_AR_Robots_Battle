@@ -27,7 +27,7 @@ public class PVECameraFollower : CameraFollower
     {
         if (pveGameManager.clientRobot != null)
         {
-            SetTarget(pveGameManager.clientRobot.transform);
+            SetTarget(pveGameManager.clientRobot.transform.Find("Hips"));
         }
     }
 }

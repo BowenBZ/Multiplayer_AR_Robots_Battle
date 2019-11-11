@@ -39,7 +39,7 @@ public class CameraFollower : MonoBehaviour
     {
         if (objectsControl.clientRobot != null)
         {
-            SetTarget(objectsControl.clientRobot.transform);
+            SetTarget(objectsControl.clientRobot.transform.Find("Hips"));
         }
     }
 

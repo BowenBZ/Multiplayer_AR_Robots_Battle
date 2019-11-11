@@ -16,8 +16,8 @@ public class CollisionDetect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        thisRoot = transform.parent;
-        robotControl = thisRoot.gameObject.GetComponent<RobotControl>();
+        thisRoot = GetRobotTransform(transform);
+        robotControl = thisRoot.GetComponent<RobotControl>();
     }
 
     void OnCollisionEnter(Collision other)
