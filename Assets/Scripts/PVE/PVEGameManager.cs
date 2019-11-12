@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PVEGameManager : MonoBehaviour
 {
 
     MainSceneRobotSelection robotSelection;     // Robots' prefabs
-    
+
     [HideInInspector]
     public GameObject clientRobot;
+
+    public GameObject ExitDialog;
+
+    PackManager packManager;
 
     // Start is called before the first frame update
     void Start()
     {
         robotSelection = GetComponent<MainSceneRobotSelection>();
         CreateClientRobot();
+        ExitDialog.SetActive(false);
+        packManager = GetComponent<PackManager>();
     }
 
     // Update is called once per frame
@@ -34,6 +41,38 @@ public class PVEGameManager : MonoBehaviour
         clientRobot.GetComponent<RobotControl>().EnableControl();
     }
 
+    /// <summary>
+    /// Show the ExitDialog
+    /// </summary>
+    public void ShowExitDialog()
+    {
+        if (ExitDialog.activeInHierarchy)
+        {
+            return;
+        }
+        else
+        {
+            ExitDialog.SetActive(true);
+            string content = "";
+            for(int i = 0; i < packManager.materialCount.Length; i++)
+            {
+                content += "X        " + packManager.materialCount[i].ToString() + "\n\n\n";
+            }
+            ExitDialog.transform.Find("Text").GetComponent<Text>().text = content;
+        }
+    }
+
+    /// <summary>
+    /// Go back to gameplay
+    /// </summary>
+    public void BackToGame()
+    {
+        ExitDialog.SetActive(false);
+    }
+
+    /// <summary>
+    /// Exit to main scene
+    /// </summary>
     public void ExitToMainScene()
     {
         SceneBridge.ExitToMainScene();

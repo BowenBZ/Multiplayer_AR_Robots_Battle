@@ -77,6 +77,7 @@ public class CameraFollower : MonoBehaviour
         PlayerRotation(look.x, look.y);
     }
 
+    float sensitivity = 10.0f;
     /// <summary>
     /// Handle the rotation of the camera
     /// </summary>
@@ -84,7 +85,7 @@ public class CameraFollower : MonoBehaviour
     /// <param name="vertical"></param>
     protected void PlayerRotation(float horizontal, float vertical)
     {
-        transform.Rotate(0f, horizontal * 12f, 0f);
+        transform.Rotate(0f, horizontal * sensitivity, 0f);
 
         // Vertical angle can only from -60 to 0
         xRot += vertical * 12f;

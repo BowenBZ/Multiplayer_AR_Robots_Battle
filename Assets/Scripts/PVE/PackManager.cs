@@ -53,9 +53,11 @@ public class PackManager : MonoBehaviour
             SingleMaterial targetMaterial = hitInfo.transform.GetComponent<SingleMaterial>();
             if (targetMaterial && targetMaterial.DetectDistance(pveGameManager.clientRobot.transform))
             {
-                Destroy(hitInfo.transform.gameObject);
+                targetMaterial.AddToPack();
             }
-
         }
     }
+
+    [HideInInspector] public string[] matericalCategory = new string[2] {"wood", "steel"};
+    [HideInInspector] public int[] materialCount = new int[2];
 }
