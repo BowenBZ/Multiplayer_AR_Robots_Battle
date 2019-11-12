@@ -36,7 +36,8 @@ public class PVEGameManager : MonoBehaviour
     public void CreateClientRobot()
     {
         // Create the local robot for client
-        clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], new Vector3(0, 0, 0), Quaternion.identity);
+        Vector2 offset = Random.insideUnitCircle * 10f;
+        clientRobot = GameObject.Instantiate(robotSelection.objects[SceneBridge.clientRobotIndex], new Vector3(offset.x, 5, offset.y), Quaternion.identity);
         // Enable the control
         clientRobot.GetComponent<RobotControl>().EnableControl();
     }
