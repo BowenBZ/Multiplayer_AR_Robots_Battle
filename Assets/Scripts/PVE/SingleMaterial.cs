@@ -10,6 +10,8 @@ public class SingleMaterial : MonoBehaviour
 
     // Material list
     public Material[] materials;
+    string[] matericalCategory = new string[2] { "wood", "steel" };
+
     // Category
     int category;
     public int Category { get { return category; } }
@@ -30,7 +32,7 @@ public class SingleMaterial : MonoBehaviour
     float allowPickUpDistance = 1.5f;
     public bool DetectDistance(Transform player)
     {
-        if(Vector3.Magnitude(transform.position - player.position) < allowPickUpDistance)
+        if (Vector3.Magnitude(transform.position - player.position) < allowPickUpDistance)
         {
             return true;
         }
@@ -43,6 +45,7 @@ public class SingleMaterial : MonoBehaviour
     public void AddToPack()
     {
         GameObject.Find("Manager").GetComponent<PackManager>().materialCount[category] += (int)(scale / 0.1);
+        GameObject.Find("CurrentPick").transform.Find("Text").GetComponent<CurrentPickupSubtitle>().AddContent(matericalCategory[category], ((int)(scale / 0.1f)).ToString());
         Destroy(gameObject);
     }
 }

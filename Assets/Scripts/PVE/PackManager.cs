@@ -58,6 +58,5 @@ public class PackManager : MonoBehaviour
         }
     }
 
-    [HideInInspector] public string[] matericalCategory = new string[2] {"wood", "steel"};
     [HideInInspector] public int[] materialCount = new int[2];
 }
