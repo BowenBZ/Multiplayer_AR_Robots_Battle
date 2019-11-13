@@ -27,6 +27,7 @@ public class RobotControl : MonoBehaviour
 
     // Robot action status
     public enum RobotStatus { normal, jump, attack, skillAttack1, skillAttack2, hit };
+    
     [HideInInspector]
     public RobotStatus robotStatus;
 
@@ -233,31 +234,27 @@ public class RobotControl : MonoBehaviour
         }
 
         // Update the robot status according to the action status
-        if (animatorStateInfo.IsName("WalkRun"))
+        if (animatorStateInfo.IsTag("Normal"))
         {
             robotStatus = RobotStatus.normal;
         }
-        else if (animatorStateInfo.IsName("StandJump") ||
-            animatorStateInfo.IsName("RunJump"))
+        else if (animatorStateInfo.IsTag("Jump"))
         {
             robotStatus = RobotStatus.jump;
         }
-        else if (animatorStateInfo.IsName("Attack1") ||
-                animatorStateInfo.IsName("Attack1-1") ||
-                animatorStateInfo.IsName("Attack1-2"))
+        else if (animatorStateInfo.IsTag("Attack"))
         {
             robotStatus = RobotStatus.attack;
         }
-        else if (animatorStateInfo.IsName("Attack2"))
+        else if (animatorStateInfo.IsTag("SkillAttack1"))
         {
             robotStatus = RobotStatus.skillAttack1;
         }
-        else if (animatorStateInfo.IsName("Attack3") ||
-                animatorStateInfo.IsName("Attack3-1"))
+        else if (animatorStateInfo.IsTag("SkillAttack2"))
         {
             robotStatus = RobotStatus.skillAttack2;
         }
-        else if (animatorStateInfo.IsName("Hit"))
+        else if (animatorStateInfo.IsTag("Beaten"))
         {
             robotStatus = RobotStatus.hit;
         }

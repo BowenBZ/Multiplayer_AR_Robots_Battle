@@ -188,7 +188,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 8569abfe4cc8ed845a813fd242201527,
     type: 3}
-  m_Tag: 
+  m_Tag: SkillAttack1
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -264,7 +264,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: bf652201a913e824a8daee00a7257fea,
     type: 3}
-  m_Tag: 
+  m_Tag: Attack
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -292,7 +292,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 9954a03957ba03444a1eebd89120f9dd,
     type: 3}
-  m_Tag: 
+  m_Tag: SkillAttack2
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -324,7 +324,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -7021630319526840559}
-  m_Tag: 
+  m_Tag: Normal
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -444,7 +444,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 1bf0a5648d47ae84b9b145d4a3b6f252,
     type: 3}
-  m_Tag: 
+  m_Tag: Beaten
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -470,7 +470,7 @@ AnimatorStateTransition:
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.25
-  m_TransitionOffset: 0.17026861
+  m_TransitionOffset: 0
   m_ExitTime: 0.90109897
   m_HasExitTime: 0
   m_HasFixedDuration: 1
@@ -500,7 +500,7 @@ AnimatorStateMachine:
     m_Position: {x: 520, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1150302036740026906}
-    m_Position: {x: 530, y: 270, z: 0}
+    m_Position: {x: 520, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1819024795509284250}
     m_Position: {x: -290, y: -20, z: 0}
@@ -515,7 +515,7 @@ AnimatorStateMachine:
     m_Position: {x: -300, y: 380, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6741912276554642917}
-    m_Position: {x: 10, y: 400, z: 0}
+    m_Position: {x: -40, y: 410, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 6461458425687200431}
@@ -598,7 +598,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 28e5171756b0bfe4db5711f7011dbf42,
     type: 3}
-  m_Tag: 
+  m_Tag: Attack
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -676,7 +676,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 181d6a95a2f2b514481ec16ae8bd7de2,
     type: 3}
-  m_Tag: 
+  m_Tag: Attack
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -695,9 +695,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.24999988
   m_TransitionOffset: 0
-  m_ExitTime: 0.88095236
+  m_ExitTime: 0.5214321
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -823,7 +823,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 469a0c11d15bdb44ca94db80942e98b5,
     type: 3}
-  m_Tag: 
+  m_Tag: Jump
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -873,7 +873,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: dc3aa6c3fd643fd43a29f19c98dffc8d,
     type: 3}
-  m_Tag: 
+  m_Tag: SkillAttack2
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -901,7 +901,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: -203655887218126122, guid: 654791a58cb960946bf6b1c1ad9d846c,
     type: 3}
-  m_Tag: 
+  m_Tag: Jump
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -942,9 +942,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25000003
+  m_TransitionDuration: 0.18970639
   m_TransitionOffset: 0
-  m_ExitTime: 0.49842486
+  m_ExitTime: 0.34884745
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
