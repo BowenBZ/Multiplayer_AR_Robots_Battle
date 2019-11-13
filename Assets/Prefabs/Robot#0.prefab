@@ -2011,6 +2011,7 @@ MonoBehaviour:
   robotStatus: 0
   HP: 0
   MP: 0
+  AttackLock: 0
 --- !u!54 &7708307375602630055
 Rigidbody:
   m_ObjectHideFlags: 0

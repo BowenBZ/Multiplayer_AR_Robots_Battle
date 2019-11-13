@@ -15,6 +15,8 @@ public class PVEGameManager : MonoBehaviour
 
     PackManager packManager;
 
+    public Transform enemies;
+
     // Start is called before the first frame update
     void Start()
     {

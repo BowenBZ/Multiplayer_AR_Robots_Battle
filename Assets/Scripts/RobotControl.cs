@@ -23,13 +23,13 @@ public class RobotControl : MonoBehaviour
     // Network parameters
     RoomControl roomControl;
 
-    RobotMessage.Message msg;
+    RobotMessage.Message msg = new RobotMessage.Message();
 
     // Robot action status
     public enum RobotStatus { normal, jump, attack, skillAttack1, skillAttack2, hit };
-    
+
     [HideInInspector]
-    public RobotStatus robotStatus;
+    public RobotStatus robotStatus = RobotStatus.normal;
 
     // Robot HP & MP
     [HideInInspector]
@@ -38,22 +38,25 @@ public class RobotControl : MonoBehaviour
     // Network parameters
     bool isClientRobot = false;
 
+    // Attack Lock
+    bool AttackLock = false;
+
+    PVEGameManager pveManager;
+
     void Start()
     {
         // Get the animator controller
         anim = GetComponent<Animator>();
         // Get the network control
         roomControl = GameObject.Find("Manager").GetComponent<RoomControl>();
-        // Initialize the message
-        msg = new RobotMessage.Message();
-        // Initialize the robot status
-        robotStatus = RobotStatus.normal;
-        // Initialize the HP and MP
+        // Get PVE manager for pve mode
+        pveManager = GameObject.Find("Manager").GetComponent<PVEGameManager>();
+        // Set HP and MP
         HP = 100.0f;
         MP = 100.0f;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // Only allow the client to control its robot
         if (!isClientRobot)
@@ -61,11 +64,19 @@ public class RobotControl : MonoBehaviour
             return;
         }
 
+        // Get current animator state
+        animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+
         // Update the position of robot
         UpdatePos();
 
+        // Get nearest enemy if needed
+        GetNearsetEnemy();
+
         // Update the actions of robot
         UpdateAction();
+
 
         // Update HP & MP
         UpdateMP();
@@ -103,7 +114,7 @@ public class RobotControl : MonoBehaviour
             anim.SetFloat("Speed", currentSpeed);
 
             // Set direction of robot
-            if (currentSpeed > 0)
+            if (currentSpeed > 0 && robotStatus == RobotStatus.normal)
             {
                 // Current Robot Forward Direction
                 currentDirection = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
@@ -127,9 +138,6 @@ public class RobotControl : MonoBehaviour
     /// </summary>
     void UpdateAction()
     {
-        // Get current animator state
-        animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
-
         // Users can operate the robot only if they are not in hit status
         if (robotStatus != RobotStatus.hit)
         {
@@ -139,43 +147,50 @@ public class RobotControl : MonoBehaviour
                 anim.SetBool("Jump", true);
                 msg.Jump = true;
             }
-            else if (animatorStateInfo.IsName("RunJump") || animatorStateInfo.IsName("StandJump"))
+            else if (animatorStateInfo.IsTag("Jump"))
             {
                 anim.SetBool("Jump", false);
                 msg.Jump = false;
             }
 
+            // If currently in the attacking mode, correction the direction
+            if (animatorStateInfo.IsTag("Attack") || animatorStateInfo.IsTag("SkillAttack1") || animatorStateInfo.IsTag("SkillAttack2"))
+            {
+                CorrectAttackDirection();
+            }
+
             // Normal Attack 1
             if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button0", EActionEvent.Down))
             {
+                // CorrectAttackDirection();
                 anim.SetBool("Attack1", true);
                 msg.Attack1 = true;
             }
-            else if (animatorStateInfo.IsName("Attack1") || animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
+            else if (animatorStateInfo.IsTag("Attack"))
             {
                 anim.SetBool("Attack1", false);
                 msg.Attack1 = false;
             }
 
-            // Normal Attack 2
+            // Normal Attack 1-1
             if (animatorStateInfo.IsName("Attack1") && TCKInput.GetAction("Button0", EActionEvent.Down))
             {
                 anim.SetBool("Attack1-1", true);
                 msg.Attack1_1 = true;
             }
-            else if (animatorStateInfo.IsName("Attack1-1") || animatorStateInfo.IsName("Attack1-2"))
+            else if (animatorStateInfo.IsTag("Attack") && !animatorStateInfo.IsName("Attack1"))
             {
                 anim.SetBool("Attack1-1", false);
                 msg.Attack1_1 = false;
             }
 
-            // Normal Attack 3
+            // Normal Attack 1-2
             if (animatorStateInfo.IsName("Attack1-1") && TCKInput.GetAction("Button0", EActionEvent.Down))
             {
                 anim.SetBool("Attack1-2", true);
                 msg.Attack1_2 = true;
             }
-            else if (animatorStateInfo.IsName("Attack1-2"))
+            else if (animatorStateInfo.IsTag("Attack") && !animatorStateInfo.IsName("Attack1-1"))
             {
                 anim.SetBool("Attack1-2", false);
                 msg.Attack1_2 = false;
@@ -189,14 +204,14 @@ public class RobotControl : MonoBehaviour
                 // Update msg
                 msg.Attack2 = true;
                 // Update MP
-                if (!animatorStateInfo.IsName("Attack2"))
+                if (!animatorStateInfo.IsTag("SkillAttack1"))
                 {
                     MP -= 20.0f;
                 }
                 // Update msg
                 msg.MP = MP;
             }
-            else if (animatorStateInfo.IsName("Attack2"))
+            else if (animatorStateInfo.IsTag("SkillAttack1"))
             {
                 anim.SetBool("Attack2", false);
                 msg.Attack2 = false;
@@ -210,14 +225,14 @@ public class RobotControl : MonoBehaviour
                 // Update msg
                 msg.Attack3 = true;
                 // Update MP
-                if (!animatorStateInfo.IsName("Attack3") && !animatorStateInfo.IsName("Attack3-1"))
+                if (!animatorStateInfo.IsTag("SkillAttack2"))
                 {
                     MP -= 40.0f;
                 }
                 // Update msg
                 msg.MP = MP;
             }
-            else if (animatorStateInfo.IsName("Attack3") || animatorStateInfo.IsName("Attack3-1"))
+            else if (animatorStateInfo.IsTag("SkillAttack2"))
             {
                 anim.SetBool("Attack3", false);
                 msg.Attack3 = false;
@@ -261,7 +276,6 @@ public class RobotControl : MonoBehaviour
 
         // Store robot status into msg
         msg.robotStatus = (int)robotStatus;
-        // Debug.Log(animatorStateInfo);
     }
 
     /// <summary>
@@ -327,5 +341,69 @@ public class RobotControl : MonoBehaviour
         robotStatus = RobotStatus.hit;
         // Store into msg
         msg.Hit = true;
+    }
+
+    Transform lockedEnemy;
+    float lockEnemyDistance = 3.0f;
+
+    /// <summary>
+    /// Detect the nearest enemy and set it to lockedEnemy
+    /// </summary>
+    void GetNearsetEnemy()
+    {
+        // Update the state
+        if (TCKInput.GetAction("AttackLock", EActionEvent.Down))
+        {
+            AttackLock = !AttackLock;
+        }
+
+        if (!AttackLock)
+        {
+            if (lockedEnemy != null)
+            {
+                lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(false);
+                lockedEnemy = null;
+            }
+            return;
+        }
+
+        if (lockedEnemy != null)
+        {
+            if (Vector3.Magnitude(lockedEnemy.position - transform.position) > lockEnemyDistance)
+            {
+                lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(false);
+                lockedEnemy = null;
+            }
+        }
+        else
+        {
+            // Needs to be modified here
+            if (SceneBridge.playMode == SceneBridge.PlayMode.PVEMode || SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)
+            {
+                for (int i = 0; i < pveManager.enemies.childCount; i++)
+                {
+                    if (Vector3.Magnitude(pveManager.enemies.GetChild(i).position - transform.position) < lockEnemyDistance)
+                    {
+                        lockedEnemy = pveManager.enemies.GetChild(i);
+                        lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(true);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Correct the direction of robot
+    /// </summary>
+    void CorrectAttackDirection()
+    {
+        if (!AttackLock || lockedEnemy == null)
+        {
+            return;
+        }
+
+        Vector3 tmp = lockedEnemy.transform.position - transform.position;
+        this.transform.forward = new Vector3(tmp.x, 0, tmp.z);
     }
 }

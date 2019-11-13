@@ -88,7 +88,7 @@ public class CameraFollower : MonoBehaviour
         transform.Rotate(0f, horizontal * sensitivity, 0f);
 
         // Vertical angle can only from -60 to 0
-        xRot += vertical * 12f;
+        xRot += vertical * sensitivity;
         xRot = Mathf.Clamp(xRot, -60f, 0f);
 
         newEulerAngles.x = -xRot;

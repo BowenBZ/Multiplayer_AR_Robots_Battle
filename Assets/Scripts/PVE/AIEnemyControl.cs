@@ -20,6 +20,7 @@ public class AIEnemyControl : MonoBehaviour
     [HideInInspector] public float HP = 100.0f, MP = 100.0f;        // HP and MP value
 
     public GameObject harmText;
+    public GameObject lockIcon;
 
     // Start is called before the first frame update
     void Start()
