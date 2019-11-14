@@ -41,13 +41,13 @@ public class AIEnemyCollisionControl : MonoBehaviour
             switch (otherRobot.robotStatus)
             {
                 case RobotControl.RobotStatus.attack:
-                    AIControl.UpdateUP(1, true);
+                    AIControl.UpdateUP(1);
                     break;
                 case RobotControl.RobotStatus.skillAttack1:
-                    AIControl.UpdateUP(10, true);
+                    AIControl.UpdateUP(10, true, 0);
                     break;
                 case RobotControl.RobotStatus.skillAttack2:
-                    AIControl.UpdateUP(3, true);
+                    AIControl.UpdateUP(3, true, 1);
                     break;
                 default:
                     break;

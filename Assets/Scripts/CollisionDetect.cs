@@ -12,6 +12,9 @@ public class CollisionDetect : MonoBehaviour
     RobotControl robotControl;
     Transform thisRoot;
     Transform otherRoot;
+    RobotControl otherRobot;
+    AIEnemyControl AIEnemy;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,33 +23,54 @@ public class CollisionDetect : MonoBehaviour
         robotControl = thisRoot.GetComponent<RobotControl>();
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         otherRoot = GetRobotTransform(other.transform);
+
+        // For PVP
+        otherRobot = otherRoot.GetComponent<RobotControl>();
         if (otherRoot != thisRoot &&
-           other.gameObject.name.Contains("Collider") &&
-           otherRoot.GetComponent<RobotControl>() != null)
+            other.gameObject.tag == "AttackOrgan" &&
+            otherRobot != null)
         {
-            if (otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.attack)
+            switch (otherRobot.robotStatus)
             {
-                // GameObject.Find("DebugText").GetComponent<Text>().text = other.gameObject.name;
-                robotControl.UpdateHP(1);
+                case RobotControl.RobotStatus.attack:
+                    robotControl.UpdateHP(1);
+                    break;
+                case RobotControl.RobotStatus.skillAttack1:
+                    robotControl.UpdateHP(3);
+                    break;
+                case RobotControl.RobotStatus.skillAttack2:
+                    robotControl.UpdateHP(5);
+                    robotControl.BeAttacked();
+                    break;
+                default:
+                    break;
             }
-            else if(otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.skillAttack1)
+        }
+
+        // For PVE
+        AIEnemy = otherRoot.GetComponent<AIEnemyControl>();
+        if (otherRoot != thisRoot &&
+            other.gameObject.tag == "AttackOrgan" &&
+            AIEnemy != null)
+        {
+            switch (AIEnemy.currentStatus)
             {
-                robotControl.UpdateHP(3);
-            }
-            else if(otherRoot.GetComponent<RobotControl>().robotStatus == RobotControl.RobotStatus.skillAttack2)
-            {
-                robotControl.UpdateHP(5);
-                robotControl.BeAttacked();
+                case AIEnemyControl.RobotStatus.Attack:
+                    robotControl.UpdateHP(10);
+                    robotControl.BeAttacked();
+                    break;
+                default:
+                    break;
             }
         }
     }
 
     Transform GetRobotTransform(Transform cur)
     {
-        if (cur.GetComponent<RobotControl>() || cur.parent == null)
+        if (cur.GetComponent<RobotControl>() || cur.GetComponent<AIEnemyControl>() || cur.parent == null)
         {
             return cur;
         }

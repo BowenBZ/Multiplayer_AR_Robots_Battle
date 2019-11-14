@@ -1,86 +1,236 @@
 fileFormatVersion: 2
 guid: 7d57e93344fa0394fae2f37211124dd1
-timeCreated: 1519314549
-licenseType: Store
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Base Human
-    100002: Base HumanFootBone001
-    100004: Base HumanFootBone001 1
-    100006: Base HumanHead
-    100008: Base HumanLCalf
-    100010: Base HumanLCollarbone
-    100012: Base HumanLFoot
-    100014: Base HumanLForearm
-    100016: Base HumanLPalm
-    100018: Base HumanLPlatform
-    100020: Base HumanLThigh
-    100022: Base HumanLUpperarm
-    100024: Base HumanNeck1
-    100026: Base HumanNeck2
-    100028: Base HumanPalmBone001
-    100030: Base HumanPalmBone001 1
-    100032: Base HumanPalmBone001Bone001
-    100034: Base HumanPalmBone001Bone001 1
-    100036: Base HumanPalmBone002
-    100038: Base HumanPalmBone002 1
-    100040: Base HumanPalmBone002Bone001
-    100042: Base HumanPalmBone002Bone001 1
-    100044: Base HumanPelvis
-    100046: Base HumanRArmCollarbone
-    100048: Base HumanRArmForearm
-    100050: Base HumanRArmPalm
-    100052: Base HumanRArmUpperarm
-    100054: Base HumanRibcage
-    100056: Base HumanRLegCalf
-    100058: Base HumanRLegFoot
-    100060: Base HumanRLegPlatform
-    100062: Base HumanRLegThigh
-    100064: Base HumanSpine1
-    100066: Base HumanSpine2
-    100068: Base HumanSpine3
-    100070: Base HumanSpine4
-    100072: //RootNode
-    400000: Base Human
-    400002: Base HumanFootBone001
-    400004: Base HumanFootBone001 1
-    400006: Base HumanHead
-    400008: Base HumanLCalf
-    400010: Base HumanLCollarbone
-    400012: Base HumanLFoot
-    400014: Base HumanLForearm
-    400016: Base HumanLPalm
-    400018: Base HumanLPlatform
-    400020: Base HumanLThigh
-    400022: Base HumanLUpperarm
-    400024: Base HumanNeck1
-    400026: Base HumanNeck2
-    400028: Base HumanPalmBone001
-    400030: Base HumanPalmBone001 1
-    400032: Base HumanPalmBone001Bone001
-    400034: Base HumanPalmBone001Bone001 1
-    400036: Base HumanPalmBone002
-    400038: Base HumanPalmBone002 1
-    400040: Base HumanPalmBone002Bone001
-    400042: Base HumanPalmBone002Bone001 1
-    400044: Base HumanPelvis
-    400046: Base HumanRArmCollarbone
-    400048: Base HumanRArmForearm
-    400050: Base HumanRArmPalm
-    400052: Base HumanRArmUpperarm
-    400054: Base HumanRibcage
-    400056: Base HumanRLegCalf
-    400058: Base HumanRLegFoot
-    400060: Base HumanRLegPlatform
-    400062: Base HumanRLegThigh
-    400064: Base HumanSpine1
-    400066: Base HumanSpine2
-    400068: Base HumanSpine3
-    400070: Base HumanSpine4
-    400072: //RootNode
-    7400000: Take 001
-    9500000: //RootNode
+  serializedVersion: 25
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Base Human
+  - first:
+      1: 100002
+    second: Base HumanFootBone001
+  - first:
+      1: 100004
+    second: Base HumanFootBone001 1
+  - first:
+      1: 100006
+    second: Base HumanHead
+  - first:
+      1: 100008
+    second: Base HumanLCalf
+  - first:
+      1: 100010
+    second: Base HumanLCollarbone
+  - first:
+      1: 100012
+    second: Base HumanLFoot
+  - first:
+      1: 100014
+    second: Base HumanLForearm
+  - first:
+      1: 100016
+    second: Base HumanLPalm
+  - first:
+      1: 100018
+    second: Base HumanLPlatform
+  - first:
+      1: 100020
+    second: Base HumanLThigh
+  - first:
+      1: 100022
+    second: Base HumanLUpperarm
+  - first:
+      1: 100024
+    second: Base HumanNeck1
+  - first:
+      1: 100026
+    second: Base HumanNeck2
+  - first:
+      1: 100028
+    second: Base HumanPalmBone001
+  - first:
+      1: 100030
+    second: Base HumanPalmBone001 1
+  - first:
+      1: 100032
+    second: Base HumanPalmBone001Bone001
+  - first:
+      1: 100034
+    second: Base HumanPalmBone001Bone001 1
+  - first:
+      1: 100036
+    second: Base HumanPalmBone002
+  - first:
+      1: 100038
+    second: Base HumanPalmBone002 1
+  - first:
+      1: 100040
+    second: Base HumanPalmBone002Bone001
+  - first:
+      1: 100042
+    second: Base HumanPalmBone002Bone001 1
+  - first:
+      1: 100044
+    second: Base HumanPelvis
+  - first:
+      1: 100046
+    second: Base HumanRArmCollarbone
+  - first:
+      1: 100048
+    second: Base HumanRArmForearm
+  - first:
+      1: 100050
+    second: Base HumanRArmPalm
+  - first:
+      1: 100052
+    second: Base HumanRArmUpperarm
+  - first:
+      1: 100054
+    second: Base HumanRibcage
+  - first:
+      1: 100056
+    second: Base HumanRLegCalf
+  - first:
+      1: 100058
+    second: Base HumanRLegFoot
+  - first:
+      1: 100060
+    second: Base HumanRLegPlatform
+  - first:
+      1: 100062
+    second: Base HumanRLegThigh
+  - first:
+      1: 100064
+    second: Base HumanSpine1
+  - first:
+      1: 100066
+    second: Base HumanSpine2
+  - first:
+      1: 100068
+    second: Base HumanSpine3
+  - first:
+      1: 100070
+    second: Base HumanSpine4
+  - first:
+      1: 100072
+    second: //RootNode
+  - first:
+      4: 400000
+    second: Base Human
+  - first:
+      4: 400002
+    second: Base HumanFootBone001
+  - first:
+      4: 400004
+    second: Base HumanFootBone001 1
+  - first:
+      4: 400006
+    second: Base HumanHead
+  - first:
+      4: 400008
+    second: Base HumanLCalf
+  - first:
+      4: 400010
+    second: Base HumanLCollarbone
+  - first:
+      4: 400012
+    second: Base HumanLFoot
+  - first:
+      4: 400014
+    second: Base HumanLForearm
+  - first:
+      4: 400016
+    second: Base HumanLPalm
+  - first:
+      4: 400018
+    second: Base HumanLPlatform
+  - first:
+      4: 400020
+    second: Base HumanLThigh
+  - first:
+      4: 400022
+    second: Base HumanLUpperarm
+  - first:
+      4: 400024
+    second: Base HumanNeck1
+  - first:
+      4: 400026
+    second: Base HumanNeck2
+  - first:
+      4: 400028
+    second: Base HumanPalmBone001
+  - first:
+      4: 400030
+    second: Base HumanPalmBone001 1
+  - first:
+      4: 400032
+    second: Base HumanPalmBone001Bone001
+  - first:
+      4: 400034
+    second: Base HumanPalmBone001Bone001 1
+  - first:
+      4: 400036
+    second: Base HumanPalmBone002
+  - first:
+      4: 400038
+    second: Base HumanPalmBone002 1
+  - first:
+      4: 400040
+    second: Base HumanPalmBone002Bone001
+  - first:
+      4: 400042
+    second: Base HumanPalmBone002Bone001 1
+  - first:
+      4: 400044
+    second: Base HumanPelvis
+  - first:
+      4: 400046
+    second: Base HumanRArmCollarbone
+  - first:
+      4: 400048
+    second: Base HumanRArmForearm
+  - first:
+      4: 400050
+    second: Base HumanRArmPalm
+  - first:
+      4: 400052
+    second: Base HumanRArmUpperarm
+  - first:
+      4: 400054
+    second: Base HumanRibcage
+  - first:
+      4: 400056
+    second: Base HumanRLegCalf
+  - first:
+      4: 400058
+    second: Base HumanRLegFoot
+  - first:
+      4: 400060
+    second: Base HumanRLegPlatform
+  - first:
+      4: 400062
+    second: Base HumanRLegThigh
+  - first:
+      4: 400064
+    second: Base HumanSpine1
+  - first:
+      4: 400066
+    second: Base HumanSpine2
+  - first:
+      4: 400068
+    second: Base HumanSpine3
+  - first:
+      4: 400070
+    second: Base HumanSpine4
+  - first:
+      4: 400072
+    second: //RootNode
+  - first:
+      74: 7400000
+    second: Take 001
+  - first:
+      95: 9500000
+    second: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -94,12 +244,25 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Inbetween bone
+      rotation in copied configuration does not match rotation in animation file:\n\t'Base
+      HumanSpine2' : rotation error = 2.160993 deg\n\t'Base HumanSpine4' : rotation
+      error = 2.295385 deg\n\t'Base HumanNeck2' : rotation error = 2.213290 deg\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'Base HumanLCalf' has scale animation that will
+      be discarded.\n\t'Base HumanLFoot' has scale animation that will be discarded.\n\t'Base
+      HumanSpine2' is inbetween humanoid transforms and has rotation animation that
+      will be discarded.\n\t'Base HumanSpine4' is inbetween humanoid transforms and
+      has rotation animation that will be discarded.\n\t'Base HumanNeck2' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Base
+      HumanRLegCalf' has scale animation that will be discarded.\n\t'Base HumanRLegFoot'
+      has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -107,13 +270,43 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run00
+      takeName: Take 001
+      internalID: 7400000
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 1
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 0.1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -121,10 +314,13 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -136,10 +332,14 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: Base HumanPelvis
       humanName: Hips
@@ -739,8 +939,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
