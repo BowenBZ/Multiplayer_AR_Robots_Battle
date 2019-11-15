@@ -51,40 +51,65 @@ If you want to store your anchors into CosmosDB other than InMemory, follow the 
 
 ## How to Play
 
+### Robot Selection and Mode Selection
+
 1. Make sure your two phones connected the same WiFi
-2. Finish the set up pipeline, you will see the an App called `SocialRobot` on your phone. It looks like as follows
+2. When you deploy the apk to your phone, an App called `SocialRobot` on your phone. It looks like as follows
 ![Icon](HelpImages/Icon.png)
-3. Open the App, select your favorite robot in the page, and then click `Confirm`
-![RobotSelection](HelpImages/RobotSelection.png)
-4. In the **first phone**, click `Create Room`, then you tap the detected ground (red surface) to place an `anchor`
-![CreateRoom](HelpImages/CreateRoom.png)
-5. Click `Next` button, then scan the environment until it arrives 100%
-![ScanEnvironment](HelpImages/ScanEnvironment.png)
-6. After you finish your scanning, a text `Created l33tKidz#X` will appear (X is a digit number)
-![FinishCreate](HelpImages/FinishCreate.png)
-7. Tap the detected ground (red surface) to place your robot!
-![PlaceRobot1](HelpImages/PlaceRobot1.png)
-8. In the **second phone**, after choosing the robot, tap `Check Room` several time, the name `l33tKidz#X` same with the first phone will appear
-![CheckRoom](HelpImages/CheckRoom.png)
-9. Tap `Join Room`, and scan your environment until the text `Joined l33tKidz#X` appears. At this time, if the first phone already place a robot, you should see it in the second phone
-![JoinRoom](HelpImages/JoinRoom.png)
-10. Tap the detected ground (red surface) to place the second robot. And the two robot can be seen by the two phones at the same time
-![PlaceRobot2](HelpImages/PlaceRobot2.png)
-11. Control your robot and battle with your friend!
+3. Open the App, now you are in a robot selection page, you can switch the robot that you want to use in the following game play. There are also three buttons in the bottom-left corner, which provide you our 3 modes to play: `PVP`, `PVP AR`, `PVE`.
+![RobotSelection](HelpImages/PVPMode.jpg)
+![RobotSelection](HelpImages/Robot2.jpg)
 
-## Azure Spatial Anchor Unity Project Analysis
+### PVP Mode
 
-* Create
-    * Create anchor and share it
-    * AzureSpatialAnchorsSharedAnchorDemoScript.cs InitializeCreateFlowDemo()
-    * Steps:
-        * Change the currentAppState
-        * Trigger EnableCorrectUIControls()
-        * Trigger AdvanceDemoAsync() ?
-        * Trigger AdvanceCreateFlowDemoAsync()
-* Load
-    * Download and match
-    * AzureSpatialAnchorsSharedAnchorDemoScript.cs InitializeLocateFlowDemo()
-* Exit
-    * Reload the scene
-    * DemoScriptBase.cs ReturnToLauncher()
+1. select your favorite robot and the `PVP` mode in the robot selection page, and then click `Confirm`, you can join a factory map.
+2. By clicking the `NoRoom` button, you can open the room manager.
+![RobotSelection](HelpImages/RoomManager.jpg)
+3. In the **first phone**, tap `Create`, then you will create a room in the server, and the room name will appear in the button.
+![RobotSelection](HelpImages/CreateRoom.jpg)
+4. In the **second phone**, tap `Check`, the existing rooms in the server will appear.
+![RobotSelection](HelpImages/CheckRoom.png)
+5. Touch `Join` to join the room that the first phone created. Now, the two robot can fight with each other.
+![RobotSelection](HelpImages/JoinRoom1.png)
+![RobotSelection](HelpImages/JoinRoom2.jpg)
+6. More information of fight will include in the following part.
+
+### PVP AR Mode
+
+1. In the robot selection page, select a robot and the `PVP AR` mode to join the AR scene. Now you can see your environment through the camera.
+![RobotSelection](HelpImages/PVPARMode.jpg)
+2. Similar to the `PVP` mode, open the room manager and create a room in the first phone.
+![RobotSelection](HelpImages/ARRoomManager.jpg)
+3. Tap the red plane to place an anchor and then you need to move your phone to scan the environment
+![RobotSelection](HelpImages/ScanEnvironment.jpg)
+4. After scan the environment, tap the red plane again to place your robot in real environment.
+![RobotSelection](HelpImages/ARScene.jpg)
+5. Join this room in the similar way of `PVP` mode in the second phone.
+
+### PVE Mode
+
+1. In the robot selection page, select a robot and the `PVE` mode to join a factory map.
+![RobotSelection](HelpImages/PVEMap.jpg)
+2. In the factory map, you can walk around and pick up materials, which is your resources to build more robot in your factory.
+![RobotSelection](HelpImages/Material.jpg)
+![RobotSelection](HelpImages/Material2.jpg)
+3. There are also several AI enemies in the map which patrol in specific areas but they will chase and attack you when they find you.
+![RobotSelection](HelpImages/AIEnemy.jpg)
+
+### Fighting Details
+
+- Whatever mode and robot you choose, the fighting control is the same. We provide several button and corresponding actions.
+
+| Button | Action | Harm | Consume MP | Cause Other Still | Other info |
+|:-----  |:----- |:----- |:----- |:-----|:----- |
+| Button 'Fist' | Single attack | 1 HP | 0 MP | No | By clicking several times to make multi-segment attack |
+| Button A | Skill 1 | 10 HP | 20 MP | No | Multi-segment attack, faster than normal attack |
+| Button B | Skill 2 | 20 HP | 40 MP | Yes | Multi-segment attack, AOE |
+| Button X | Jump | | | | Different when stand jump and run jump |
+
+- Users can also use the joystick to control the movement of the robot. Users can also touch the screen to adjust the camera view.
+- There is a HP bar (red) and MP bar (blue) showing robots' status. Player's HP and MP bar is in the top-left, others' including other players and enemies are in the top of their head.
+- By touching other players or enemies, you can open the `Attack Correction`. In this mode, there will be a red arrow in the top of the head of other robots, all the direction of attack actions will be corrected to the direction towards the robot.
+![RobotSelection](HelpImages/AttackCorrection.png)
+By clicking the `Lock` icon, you can unlock the `Attack Correction`. The red arrow disappears and your attack direction in the forward of your player.
+![RobotSelection](HelpImages/AttackCorrection.png)
