@@ -6627,7 +6627,7 @@ GameObject:
   - component: {fileID: 2643365373208018461}
   - component: {fileID: 2643365373208018434}
   m_Layer: 5
-  m_Name: Button0
+  m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6648,7 +6648,7 @@ MonoBehaviour:
   updateMode: 0
   baseRect: {fileID: 2643365373208018435}
   baseImage: {fileID: 2643365373208018461}
-  identifier: Button0
+  identifier: Attack
   baseImageColor:
     serializedVersion: 2
     rgba: 2785017855
@@ -6854,7 +6854,7 @@ GameObject:
   - component: {fileID: 2643365373770782097}
   - component: {fileID: 2643365373770782102}
   m_Layer: 5
-  m_Name: Button2
+  m_Name: Skill2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6875,7 +6875,7 @@ MonoBehaviour:
   updateMode: 0
   baseRect: {fileID: 2643365373770782103}
   baseImage: {fileID: 2643365373770782097}
-  identifier: Button2
+  identifier: Skill2
   baseImageColor:
     serializedVersion: 2
     rgba: 2785017855
@@ -7100,7 +7100,7 @@ MonoBehaviour:
   updateMode: 0
   baseRect: {fileID: 2643365374018269838}
   baseImage: {fileID: 2643365374018269832}
-  identifier: Button1
+  identifier: Skill1
   baseImageColor:
     serializedVersion: 2
     rgba: 2785017855
@@ -7153,7 +7153,7 @@ GameObject:
   - component: {fileID: 2643365374018269832}
   - component: {fileID: 2643365374018269833}
   m_Layer: 5
-  m_Name: Button1
+  m_Name: Skill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

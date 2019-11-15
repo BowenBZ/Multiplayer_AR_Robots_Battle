@@ -365,7 +365,7 @@ public class RobotControl : MonoBehaviour
         msg.Hit = true;
     }
 
-    Transform lockedEnemy;
+    Transform lockedEnemy = null;
     float lockEnemyDistance = 3.0f;
 
     Ray ray;

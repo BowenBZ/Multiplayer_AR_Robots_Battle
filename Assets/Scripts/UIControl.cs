@@ -74,7 +74,7 @@ public class UIControl : MonoBehaviour
     public void SetCurrentRoomName(string matchName)
     {
         RoomManagerBtn.transform.Find("Text").GetComponent<Text>().text = matchName;
-        SwitchRoomManagerStatus();
+        RoomManageBackground.SetActive(false);
     }
 
 
@@ -103,7 +103,6 @@ public class UIControl : MonoBehaviour
             roomItem.transform.localScale = new Vector3(1, 1, 1);
             roomItem.transform.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, offset, 0);
             offset += offsetDelta;
-            roomItem.transform.GetChild(0).name = "Room#" + i.ToString();
             roomItem.transform.GetChild(1).GetComponent<Text>().text = searchedName[i];
         }
     }

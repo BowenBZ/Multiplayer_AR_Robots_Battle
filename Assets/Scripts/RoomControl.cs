@@ -71,6 +71,7 @@ public class RoomControl : MonoBehaviour
             {
 #if !UNITY_EDITOR
                 UIManager.ShowGuidanceUI();
+                UIManager.SwitchRoomManagerStatus();
 
                 // Upload the created anchor, and wait the anchor index return
                 long anchorIndex = await anchorControl.UploadAnchor();
@@ -96,8 +97,6 @@ public class RoomControl : MonoBehaviour
                 uint matchSize = 8;
                 networkManager.matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreate);
             }
-
-
         }
 
     }
@@ -119,7 +118,7 @@ public class RoomControl : MonoBehaviour
         }
     }
 
-
+    Dictionary<string, UnityEngine.Networking.Types.NetworkID> roomNameToId;
     /// <summary>
     /// Check whether there is a room in the server 
     /// </summary>
@@ -131,9 +130,11 @@ public class RoomControl : MonoBehaviour
             if (networkManager.matches != null && networkManager.matches.Count > 0)
             {
                 List<string> searchedName = new List<string>();
+                roomNameToId = new Dictionary<string, UnityEngine.Networking.Types.NetworkID>(); 
                 for(int i = 0; i < networkManager.matches.Count; i++)
                 {
                     searchedName.Add(networkManager.matches[i].name);
+                    roomNameToId.Add(networkManager.matches[i].name, networkManager.matches[i].networkId);
                 }
                 UIManager.SetSearchedName(searchedName);
             }
@@ -144,14 +145,13 @@ public class RoomControl : MonoBehaviour
     /// Join the room and download the anchors 
     /// </summary>
     /// <returns></returns>
-    public async void JoinExistingRoom(GameObject roomIndexObj)
+    public async void JoinRoom(Text roomName)
     {
         if (!IsInRoom && networkManager.matches != null && networkManager.matches.Count > 0)
         {
-            int roomIndex = int.Parse(roomIndexObj.name.Split('#')[1]);
-            matchName = networkManager.matches[roomIndex].name;
+            matchName = roomName.text;
             networkManager.matchName = matchName;
-            networkManager.matchMaker.JoinMatch(networkManager.matches[roomIndex].networkId, "", "", "", 0, 0, OnMatchJoined);
+            networkManager.matchMaker.JoinMatch(roomNameToId[matchName], "", "", "", 0, 0, OnMatchJoined);
 
             if (SceneBridge.playMode == SceneBridge.PlayMode.ARMode)
             {
