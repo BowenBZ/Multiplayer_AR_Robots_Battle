@@ -20,8 +20,8 @@ public class AIEnemyControl : MonoBehaviour
 
     [HideInInspector] public float HP = 100.0f, MP = 100.0f;        // HP and MP value
 
-    public GameObject harmText;
-    public GameObject lockIcon;
+    GameObject harmText;
+    [HideInInspector] public GameObject lockIcon;
 
     NavMeshAgent navi;
 
@@ -42,6 +42,11 @@ public class AIEnemyControl : MonoBehaviour
         navi = GetComponent<NavMeshAgent>();
         navi.updatePosition = true;
         navi.updateRotation = false;
+
+        harmText = transform.Find("HPMP").Find("HarmText").gameObject;
+        
+        lockIcon = transform.Find("HPMP").Find("LockArrow").gameObject;
+        lockIcon.SetActive(false);
     }
 
     // Update is called once per frame
@@ -96,7 +101,7 @@ public class AIEnemyControl : MonoBehaviour
     /// <param name="deltaHP"></param>
     /// <param name="causeStill"></param>
     /// <param name="stillType"></param>
-    public void UpdateUP(int deltaHP, bool causeStill = false, int stillType = 0)
+    public void UpdateHP(int deltaHP, bool causeStill = false, int stillType = 0)
     {
         HP -= deltaHP;
         harmText.transform.GetComponent<Text>().text = "-" + deltaHP.ToString();

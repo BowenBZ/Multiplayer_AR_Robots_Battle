@@ -1238,8 +1238,8 @@ GameObject:
   - component: {fileID: 2589726288782359207}
   - component: {fileID: 2589726288782359256}
   m_Layer: 0
-  m_Name: Enemy1
-  m_TagString: Untagged
+  m_Name: Enemy
+  m_TagString: Robot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1302,7 +1302,6 @@ MonoBehaviour:
   currentStatus: 0
   HP: 100
   MP: 100
-  harmText: {fileID: 2591095292774023063}
   lockIcon: {fileID: 2591095291635100132}
   CheckPointsCollections: {fileID: 0}
 --- !u!54 &2589726288782359207
@@ -4401,7 +4400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2591095291635100133
 RectTransform:
   m_ObjectHideFlags: 0

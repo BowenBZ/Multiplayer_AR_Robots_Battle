@@ -26,8 +26,11 @@ public class HPBarManager : MonoBehaviour
     protected void Update()
     {
         // Used for the mode to make the bar follow the robot
-        // transform.position = robotHips.position + offset;
-        // transform.eulerAngles = new Vector3(Camera.main.transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, 0.0f);
+        if (gameObject.name == "HPMP_enemy")
+        {
+            transform.position = robotHips.position + offset;
+            transform.eulerAngles = new Vector3(Camera.main.transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, 0.0f);
+        }
         HPSlider.value = robotControl.HP;
         MPSlider.value = robotControl.MP;
     }

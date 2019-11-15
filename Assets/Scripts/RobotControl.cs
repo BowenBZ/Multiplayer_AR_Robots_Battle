@@ -38,10 +38,23 @@ public class RobotControl : MonoBehaviour
     // Network parameters
     bool isClientRobot = false;
 
-    // Attack Lock
-    bool AttackLock = false;
-
     PVEGameManager pveManager;
+
+    GameObject HPMP_own;
+    GameObject HPMP_enemy;
+
+    [HideInInspector] public GameObject lockIcon;
+
+    void Awake()
+    {
+        lockIcon = transform.Find("HPMP_enemy").Find("LockArrow").gameObject;
+        lockIcon.SetActive(false);
+
+        HPMP_own = transform.Find("HPMP_own").gameObject;
+        HPMP_enemy = transform.Find("HPMP_enemy").gameObject;
+
+        HPMP_own.SetActive(false);
+    }
 
     void Start()
     {
@@ -61,18 +74,24 @@ public class RobotControl : MonoBehaviour
         // Only allow the client to control its robot
         if (!isClientRobot)
         {
+            // HPMP_own.SetActive(false);
+            // HPMP_enemy.SetActive(true);
             return;
+        }
+        else
+        {
+            // HPMP_own.SetActive(true);
+            // HPMP_enemy.SetActive(false);
         }
 
         // Get current animator state
         animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-
         // Update the position of robot
         UpdatePos();
 
         // Get nearest enemy if needed
-        GetNearsetEnemy();
+        SetEnemy();
 
         // Update the actions of robot
         UpdateAction();
@@ -91,6 +110,9 @@ public class RobotControl : MonoBehaviour
     public void EnableControl()
     {
         isClientRobot = true;
+
+        HPMP_own.SetActive(true);
+        HPMP_enemy.SetActive(false);
     }
 
     Vector2 joystickInput = new Vector2(0, 0);
@@ -160,7 +182,7 @@ public class RobotControl : MonoBehaviour
             }
 
             // Normal Attack 1
-            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Attack", EActionEvent.Down))
             {
                 // CorrectAttackDirection();
                 anim.SetBool("Attack1", true);
@@ -173,7 +195,7 @@ public class RobotControl : MonoBehaviour
             }
 
             // Normal Attack 1-1
-            if (animatorStateInfo.IsName("Attack1") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            if (animatorStateInfo.IsName("Attack1") && TCKInput.GetAction("Attack", EActionEvent.Down))
             {
                 anim.SetBool("Attack1-1", true);
                 msg.Attack1_1 = true;
@@ -185,7 +207,7 @@ public class RobotControl : MonoBehaviour
             }
 
             // Normal Attack 1-2
-            if (animatorStateInfo.IsName("Attack1-1") && TCKInput.GetAction("Button0", EActionEvent.Down))
+            if (animatorStateInfo.IsName("Attack1-1") && TCKInput.GetAction("Attack", EActionEvent.Down))
             {
                 anim.SetBool("Attack1-2", true);
                 msg.Attack1_2 = true;
@@ -197,7 +219,7 @@ public class RobotControl : MonoBehaviour
             }
 
             // Attack 2
-            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button1", EActionEvent.Down) && MP > 20.0f)
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Skill1", EActionEvent.Down) && MP > 20.0f)
             {
                 // Update animator
                 anim.SetBool("Attack2", true);
@@ -218,7 +240,7 @@ public class RobotControl : MonoBehaviour
             }
 
             // Attack 3
-            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Button2", EActionEvent.Down) && MP > 40.0f)
+            if (animatorStateInfo.IsName("WalkRun") && TCKInput.GetAction("Skill2", EActionEvent.Down) && MP > 40.0f)
             {
                 // Update animator
                 anim.SetBool("Attack3", true);
@@ -346,64 +368,92 @@ public class RobotControl : MonoBehaviour
     Transform lockedEnemy;
     float lockEnemyDistance = 3.0f;
 
+    Ray ray;
+    RaycastHit hitInfo;
+
     /// <summary>
-    /// Detect the nearest enemy and set it to lockedEnemy
+    /// Set the enemy when you click the enemy 
     /// </summary>
-    void GetNearsetEnemy()
+    void SetEnemy()
     {
-        // Update the state
+        // Used for mouse interaction
+        if (Input.GetMouseButtonDown(0))
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            SetEnemyCore();
+        }
+
+        // Used for touch interaction
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            SetEnemyCore();
+        }
+
+        // Used for cancel set
         if (TCKInput.GetAction("AttackLock", EActionEvent.Down))
         {
-            AttackLock = !AttackLock;
+            CancelAttackLock();
         }
+    }
 
-        if (!AttackLock)
-        {
-            if (lockedEnemy != null)
-            {
-                lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(false);
-                lockedEnemy = null;
-            }
-            return;
-        }
 
-        if (lockedEnemy != null)
+    /// <summary>
+    /// If target at a material, check the distance and update the pack
+    /// </summary>
+    void SetEnemyCore()
+    {
+        if (Physics.Raycast(ray, out hitInfo, 100.0f, 5))
         {
-            if (Vector3.Magnitude(lockedEnemy.position - transform.position) > lockEnemyDistance)
+            if (hitInfo.transform.gameObject.tag == "Robot" && hitInfo.transform != this.transform)
             {
-                lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(false);
-                lockedEnemy = null;
-            }
-        }
-        else
-        {
-            // Needs to be modified here
-            if (SceneBridge.playMode == SceneBridge.PlayMode.PVEMode || SceneBridge.playMode == SceneBridge.PlayMode.onlineMode)
-            {
-                for (int i = 0; i < pveManager.enemies.childCount; i++)
+                CancelAttackLock();
+                lockedEnemy = hitInfo.transform;
+                if (SceneBridge.playMode == SceneBridge.PlayMode.PVEMode)
                 {
-                    if (Vector3.Magnitude(pveManager.enemies.GetChild(i).position - transform.position) < lockEnemyDistance)
-                    {
-                        lockedEnemy = pveManager.enemies.GetChild(i);
-                        lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(true);
-                        break;
-                    }
+                    lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(true);
+                }
+                else
+                {
+                    lockedEnemy.GetComponent<RobotControl>().lockIcon.SetActive(true);
                 }
             }
         }
     }
 
+
+    /// <summary>
+    /// Cancel the attack lock
+    /// </summary>
+    public void CancelAttackLock()
+    {
+        if (lockedEnemy == null)
+            return;
+
+        if (SceneBridge.playMode == SceneBridge.PlayMode.PVEMode)
+        {
+            lockedEnemy.GetComponent<AIEnemyControl>().lockIcon.SetActive(false);
+        }
+        else
+        {
+            lockedEnemy.GetComponent<RobotControl>().lockIcon.SetActive(false);
+        }
+        lockedEnemy = null;
+    }
+
+    Vector3 directionVector = new Vector3(0, 0, 0);
     /// <summary>
     /// Correct the direction of robot
     /// </summary>
     void CorrectAttackDirection()
     {
-        if (!AttackLock || lockedEnemy == null)
+        if (lockedEnemy == null)
         {
             return;
         }
 
-        Vector3 tmp = lockedEnemy.transform.position - transform.position;
-        this.transform.forward = new Vector3(tmp.x, 0, tmp.z);
+        directionVector = lockedEnemy.transform.position - transform.position;
+        directionVector.y = 0;
+        this.transform.forward = directionVector;
     }
 }

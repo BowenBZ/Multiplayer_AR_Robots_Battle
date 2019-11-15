@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DetectedPlane
   - AttackOrgan
+  - Robot
   layers:
   - Default
   - TransparentFX
