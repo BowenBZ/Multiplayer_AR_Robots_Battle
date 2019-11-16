@@ -112,4 +112,4 @@ If you want to store your anchors into CosmosDB other than InMemory, follow the 
 - By touching other players or enemies, you can open the `Attack Correction`. In this mode, there will be a red arrow in the top of the head of other robots, all the direction of attack actions will be corrected to the direction towards the robot.
 ![RobotSelection](HelpImages/AttackCorrection.png)
 By clicking the `Lock` icon, you can unlock the `Attack Correction`. The red arrow disappears and your attack direction in the forward of your player.
-![RobotSelection](HelpImages/AttackCorrection.png)
+![RobotSelection](HelpImages/NoAttackCorrection.png)

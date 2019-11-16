@@ -923,10 +923,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 3
-  cloudProjectId: f9901cd1-cf71-4bed-ac6e-478d1276ec6b
+  cloudProjectId: c3028664-f19d-43a5-b806-18d93ab6daca
   framebufferDepthMemorylessMode: 0
-  projectName: SocialRobot
-  organizationId: zbw18
+  projectName: RobotFighting
+  organizationId: gixunity
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
