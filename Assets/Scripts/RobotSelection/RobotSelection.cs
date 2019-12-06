@@ -27,7 +27,7 @@ public class RobotSelection : MonoBehaviour
     {
         currentIndex = 0;
         InitializeModel();
-        presentsObj[currentIndex].SetActive(true);
+        StartCoroutine(RobotComeIn());
         currentMode = PlayMode.onlineMode;
         onlineBtn = GameObject.Find("OnlineButton").GetComponent<Button>();
         ARBtn = GameObject.Find("ARButton").GetComponent<Button>();
@@ -37,23 +37,16 @@ public class RobotSelection : MonoBehaviour
 
     void Update()
     {
-        DetectTouchInput();
         SelectBtn();
     }
 
 
-    Vector2 touchDelPos;
-    Vector3 rotateAngle = new Vector3(0, 0, 0);
-    /// <Summary>
-    /// Detect the touch input 
-    /// </Summary>
-    void DetectTouchInput()
+    IEnumerator RotateRobot()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        while (true)
         {
-            touchDelPos = Input.GetTouch(0).deltaPosition;
-            rotateAngle.y = -touchDelPos.x * 0.25f;
-            presentsObj[currentIndex].transform.Rotate(rotateAngle);
+            presentsObj[currentIndex].transform.Rotate(Vector3.up, 1.0f, Space.World);
+            yield return null;
         }
     }
 
@@ -63,10 +56,29 @@ public class RobotSelection : MonoBehaviour
         for (int i = 0; i < prefabList.Length; i++)
         {
             presentsObj[i] = GameObject.Instantiate(prefabList[i],
-                                                    new Vector3(0.0f, 0.0f, 0.0f),
-                                                    Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                                                    new Vector3(-1.446266f, 0.0f, 0.0f),
+                                                    Quaternion.Euler(0.0f, 90.0f, 0.0f));
             presentsObj[i].SetActive(false);
         }
+    }
+
+    IEnumerator RobotComeIn()
+    {
+        presentsObj[currentIndex].transform.position = new Vector3(-1.446266f, 0.0f, 0.0f);
+        presentsObj[currentIndex].transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+        presentsObj[currentIndex].SetActive(true);
+        Animator anim = presentsObj[currentIndex].GetComponent<Animator>();
+        while (presentsObj[currentIndex].transform.position.x < 0)
+        {
+            anim.SetFloat("Speed", (-presentsObj[currentIndex].transform.position.x + 1.446266f) / (1.446266f + 1.446266f));
+            yield return null;
+        }
+        anim.SetFloat("Speed", 0);
+        anim.SetBool("Attack1", true);
+        yield return new WaitForSeconds(0.3f);
+        anim.SetBool("Attack1", false);
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(RotateRobot());
     }
 
     public void Next()
@@ -74,7 +86,8 @@ public class RobotSelection : MonoBehaviour
         presentsObj[currentIndex].transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         presentsObj[currentIndex].SetActive(false);
         currentIndex = (++currentIndex) % prefabList.Length;
-        presentsObj[currentIndex].SetActive(true);
+        StopAllCoroutines();
+        StartCoroutine(RobotComeIn());
     }
 
     public void Prev()
@@ -82,14 +95,15 @@ public class RobotSelection : MonoBehaviour
         presentsObj[currentIndex].transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         presentsObj[currentIndex].SetActive(false);
         currentIndex = (--currentIndex < 0) ? prefabList.Length - 1 : currentIndex;
-        presentsObj[currentIndex].SetActive(true);
+        StopAllCoroutines();
+        StartCoroutine(RobotComeIn());
     }
 
     public void LoadMainScene()
     {
         SceneBridge.clientRobotIndex = currentIndex;
         SceneBridge.playMode = (SceneBridge.PlayMode)currentMode;
-        
+
         if (currentMode == PlayMode.onlineMode)
         {
             SceneManager.LoadScene("OnlineFighting", LoadSceneMode.Single);
@@ -98,7 +112,7 @@ public class RobotSelection : MonoBehaviour
         {
             SceneManager.LoadScene("ARFighting", LoadSceneMode.Single);
         }
-        else if(currentMode == PlayMode.PVEMode)
+        else if (currentMode == PlayMode.PVEMode)
         {
             SceneManager.LoadScene("PVEMap1", LoadSceneMode.Single);
         }
@@ -121,15 +135,15 @@ public class RobotSelection : MonoBehaviour
 
     void SelectBtn()
     {
-        if(currentMode == PlayMode.onlineMode)
+        if (currentMode == PlayMode.onlineMode)
         {
             onlineBtn.Select();
         }
-        else if(currentMode == PlayMode.ARMode)
+        else if (currentMode == PlayMode.ARMode)
         {
             ARBtn.Select();
         }
-        else if(currentMode == PlayMode.PVEMode)
+        else if (currentMode == PlayMode.PVEMode)
         {
             PVEBtn.Select();
         }

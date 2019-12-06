@@ -13,16 +13,18 @@ public class MaterialGenerator : MonoBehaviour
     float minX = -36.031f, maxX = 36.61f;
     float minZ = -14.16f, maxZ = 13.76f;
     float mapY = 4.11f;
+
     Vector3 generatePos = new Vector3(0, 0, 0);
     public Transform materialUpdatePos;
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < materialUpdatePos.childCount; i++)
+        for (int i = 0; i < materialUpdatePos.childCount; i++)
         {
             generatePos = materialUpdatePos.GetChild(i).position;
-            for(int j = 0; j < materialNumber / materialUpdatePos.childCount; j++)
+            generatePos.y -= 2.0f;
+            for (int j = 0; j < materialNumber / materialUpdatePos.childCount; j++)
             {
                 Vector2 randomOffset = Random.insideUnitCircle * 2;
                 generatePos.x += randomOffset.x;
@@ -37,6 +39,6 @@ public class MaterialGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
