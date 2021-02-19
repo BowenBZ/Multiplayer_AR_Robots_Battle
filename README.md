@@ -16,8 +16,8 @@ Follow the [Azure Spatial Anchor Tutorial](https://docs.microsoft.com/en-us/azur
     1. Create an Azure account.  
     2. Create a `Spatial Anchors` resource.  
     Store the `Account ID` and `Primary Key` into some places. In this project, the  
-        * `Account ID` 6616fce2-1b28-4fed-8ba9-c0bfb5acb35b
-        * `Primary Key` AWFhKCI/4SBNs+M9ZrHuuD3KT+9bxoLDTJZmokyRxPM=
+        * `Account ID` XXXX
+        * `Primary Key` XXXX
 2. Set up your Sharing Anchors Service and Plan.  
 Follow the [Tutorial: Share Azure Spatial Anchors across sessions and devices](https://docs.microsoft.com/en-us/azure/spatial-anchors/tutorials/tutorial-share-anchors-across-devices) to do the following 3 steps.
     1. Download the Unity sample project
