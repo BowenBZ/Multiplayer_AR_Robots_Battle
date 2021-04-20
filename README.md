@@ -3,6 +3,10 @@
 
 This repo is the AR social functions of L33tKidz's launch product. It is based on AR Foundation and AzureSpatialAnchor. It aims to build a multi-platform AR shared experience including ARCore (Android), ARKit (IOS), and WMR (HoloLens). Currently, it is tested on ARCore platform only.
 
+This game supports 3 different modes as following. 
+
+![3Modes](HelpImages/3Modes.png)
+
 ## Requirements
 
 * Two developer enabled and ARCore capable Android devices
